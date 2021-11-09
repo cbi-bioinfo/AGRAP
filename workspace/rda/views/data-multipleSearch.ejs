@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--다중검색 페이지-->
+<head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/6281c0ce53.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+    <!--번역 상태 데이터-->
+    <script>
+        document.body.data = {
+            isEng: JSON.parse(window.localStorage.getItem("translation")).isEng
+        }
+    </script>
+
+    <%- include('header.ejs') %>
+    <%if(type=="pepper"){%><%- include('pepperData-multipleSearch.ejs') %><%}else{%><%- include('riceData-multipleSearch.ejs') %><%}%>
+    <%- include('footer.ejs') %>
+</body>
+</html>

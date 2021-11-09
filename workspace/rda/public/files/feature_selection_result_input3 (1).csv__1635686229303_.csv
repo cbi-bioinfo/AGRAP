@@ -1,0 +1,5 @@
+,Random Forest,L1 based LinearSVC,L1 based Log Regression,RFE
+0,개화기,착과형태,착과형태,초장
+1,초장,과장,과장,착과형태
+2,주경장,주경장,과실.속살의.두께,과실.속살의.두께
+3,,과실.속살의.두께,,

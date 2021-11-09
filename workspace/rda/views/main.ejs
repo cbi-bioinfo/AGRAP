@@ -1,0 +1,180 @@
+<main class="index__main" id="main">
+    <div class="search__wrapper" id="search__wrapper">
+        <div class="search__container">
+            <div id="translation-part">
+
+            </div>
+
+            <div class="search-bar">
+                <form action="/file" method="post" enctype="multipart/form-data" name="searchForm" id="search-form" class="search-form">
+                    <div class="search-file-input">
+                        
+                    <label for="uploadedFile" >파일 선택</label>
+                    <div>
+                        <span id="fileName" >파일을 선택해주세요.</span>
+                        <div id="myProgress">
+                            <div id="myBar"><span id="progress-status">1%</span></div>
+                        </div>
+                    </div>
+                    </div>
+                    <input type="file" id="uploadedFile" class="file-upload" name="input-file" onchange="onFileChange()" style="display: none;"/>
+                    <div id="loading" style="display: block;z-index: 99;">
+                        <img src="/images/loading.gif" style="margin-left: -80px;z-index: 100;">
+                    </div>
+                    <i class="fas fa-chevron-right" style="font-size: x-large;"></i>
+                </form>
+                
+            </div>
+            <div class="search-example" id="translation-part2">
+
+            </div>
+        </div>
+    </div>
+    <div class="platform-description">
+        <div class="description__wrapper" id="translation-part3">
+
+        </div>
+
+        <div class="icon">
+            <div class="icon-n"><img src="/images/classification_b.png" style="width:80%;"></div>
+            <div class="icon-n"><img src="/images/box_b.png" style="width:80%;"></div>
+            <div class="icon-n"><img src="/images/cluster_b.png" style="width: 80%;"></div>
+            <div class="icon-n"><img src="/images/agronomy_b.png" style="width: 80%;"></div>
+        </div>
+    </div>
+
+    <div class="search-bar-sticky">
+        <span>platform</span>
+        <form action="/search" method="get" id="search-form">
+            <input type="text" class="search-input-sticky" name="query" placeholder="search" />
+            <i class="fas fa-search fa-2x"></i>
+        </form>
+    </div>
+</main>
+
+<script>
+    function onFileChange(){
+         var fileInput = document.getElementById('uploadedFile'); 
+        document.getElementById("fileName").innerHTML=fileInput.files[0].name
+    }
+    
+    let eng4 = `<div id="translation-part">
+                <h4 class="search-heading">Explore Agricultural<br>Genetic resources Data</h4>
+                <div class="search-subheading">
+                    Quickly find important features from genetic resources!
+                </div>
+            </div>`
+    let eng5 = `           <div class="search-example" id="translation-part2">
+                <ul class="example-list">
+                    <li class="example">Examples</li>
+                    <li class="example"><a href="/file/input1_lng100.csv" data-tooltip-text="data length :100">input1</a></li>
+                    <li class="example"><a href="/file/input2_lng200.csv" data-tooltip-text="data length :200">input2</a></li>
+                    <li class="example"><a href="/file/input3_lng300.csv" data-tooltip-text="data length :300">input3</a></li>
+                    <li class="example"><a href="/file/input4_lng500.csv" data-tooltip-text="data length :500">input4</a></li>
+                    <li class="example"><a href="/file/input5_lng1000.csv" data-tooltip-text="data length :1000">input5</a></li>
+                </ul>
+            </div>`
+    let eng6 = `
+        <div class="description__wrapper" id="translation-part3"> 
+            <span class="description-heading">What is Agricultural Genetic Resource Analysis?</span>
+            <p class="description-content">Agricultural genetic resources are important source in the field of
+                agriculture and biotechnology industry for food production increase and maintaining the biodiversity. As
+                the basic material for the research of improving varieties and developing new species, analysis for
+                features in agricultural genetic resource is needed. However, identifying important features and
+                performing correlation analysis based on the resources are limited, which makes it difficult for the
+                efficient data utilization. “Agricultural Genetic Resource Analysis” is a web-based platform performing
+                machine learning based analysis using the agricultural genetic dataset. It provides classification,
+                clustering, feature selection and correlation analysis with an intuitive interface and allows users to
+                obtain understanding of important features in the dataset.</p>
+        </div>
+`
+    let kor4 = `            <div id="translation-part">
+                <h4 class="search-heading">농업 유전자원 <br>특성 정보 분석 및 검색</h4>
+                <div class="search-subheading">
+                    머신러닝 기반의 유전자원 데이터 분석 및 결과 시각화
+                </div>
+            </div>`
+    let kor5 = `           <div class="search-example"  id="translation-part2">
+        <ul class="example-list">
+                    <li class="example">예시 데이터</li>
+                    <li class="example"><a href="/file/input1_lng100.csv" data-tooltip-text="data length :100">input1</a></li>
+                    <li class="example"><a href="/file/input2_lng200.csv" data-tooltip-text="data length :200">input2</a></li>
+                    <li class="example"><a href="/file/input3_lng300.csv" data-tooltip-text="data length :300">input3</a></li>
+                    <li class="example"><a href="/file/input4_lng500.csv" data-tooltip-text="data length :500">input4</a></li>
+                    <li class="example"><a href="/file/input5_lng1000.csv" data-tooltip-text="data length :1000">input5</a></li>
+                </ul>
+            </div>`
+    let kor6 = `   <div class="description__wrapper"  id="translation-part3">
+            <span class="description-heading">농업 유전자원 분석 플랫폼이란 ?</span>
+            <div class="description-content">농업 유전자원은 새로운 품종의 육성과 신물질 추출 등의 생명공학 연구의 기초 재료로서 중요한 가치를 지니고 있다.
+                식량 생산 증진 및 생물다양성 유지를 위해 유전자원의 확보 및 보존의 중요성이 부각 되고 있다.<br>
+                <br>최근, 머신러닝 (Machine learning) 기반의 데이터 분석이 여러 분야에서 높은 성능을 보임에 따라, 농업 유전자원 데이터에도 머신러닝 기법 적용을 통해 효율적인 특성
+                분석이 가능할 것으로 기대된다.
+                하지만, 머신러닝 기반의 유전자원 데이터 분석에는 내부 기술에 대한 이해 및 알고리즘 구현 과정이 요구되며, 일반 사용자가 이를 수행하기는 쉽지 않다.
+                이에 따라 머신러닝 기반의 분석 연구가 미미하며, 유전자원의 효율적인 활용이 힘든 실정이다. <br><br>
+                "<span id="strong">농업 유전자원 분석 플랫폼</span>”은 머신러닝 기반의 농업 유전자원 데이터 분석 웹 플랫폼으로서, 사용자로부터 입력받은 유전자원 데이터에 대해 군집
+                분석, 분류 분석, 중요 특징 추출, 상관관계 분석을 수행하여 결과를 제공한다.
+            </div>
+        </div>
+`;
+    if (document.body.data.isEng) {
+        document.getElementById("translation-part").innerHTML = eng4;
+        document.getElementById("translation-part2").innerHTML = eng5;
+        document.getElementById("translation-part3").innerHTML = eng6;
+
+    } else {
+        document.getElementById("translation-part").innerHTML = kor4;
+        document.getElementById("translation-part2").innerHTML = kor5;
+        document.getElementById("translation-part3").innerHTML = kor6;
+    }
+    document.querySelector(".search-bar-sticky").style.display = "none";
+    document.getElementById("myProgress").style.display = "none";
+    document.getElementById("loading").style.display = "none";
+    //번역 버튼 클릭시,
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng4;
+            document.getElementById("translation-part2").innerHTML = eng5;
+            document.getElementById("translation-part3").innerHTML = eng6;
+
+        } else {
+            document.getElementById("translation-part").innerHTML = kor4;
+            document.getElementById("translation-part2").innerHTML = kor5;
+            document.getElementById("translation-part3").innerHTML = kor6;
+        }
+    })
+    function submitForm() {
+        document.getElementById("search-form").submit();
+    }
+    let i = 0;
+    function move() {
+        if (i == 0) {
+            i = 1;
+            var elem = document.getElementById("myBar");
+            var status = document.getElementById("progress-status");
+            var width = 1;
+            var id = setInterval(frame, 500);
+            function frame() {
+                if (width >= 100) {
+                    clearInterval(id);
+                    i = 0;
+                } else {
+                    width++;
+                    elem.style.width = width + "%";
+                    status.innerText = width + "%";
+                }
+            }
+        }
+    }
+    let submitBtn = document.querySelector(".search-form i");
+    submitBtn.addEventListener("click", function (event) {
+        event.preventDefault();
+        if(document.getElementById('uploadedFile').files[0]){
+        submitForm();
+        document.getElementById("myProgress").style.display = "flex";
+        document.getElementById("loading").style.display = "block";
+        move();
+    }
+    });
+</script>

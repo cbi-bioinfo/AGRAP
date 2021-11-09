@@ -1,0 +1,89 @@
+<main class="search__main">
+    <hr />
+    <div class="search__result">
+        <div class="search__result2">
+            <table id="translation-part">
+            </table>
+        </div>
+    </div>
+</main>
+<script>
+    //한-영 번역 기능
+    let eng_rm = `<table id="translation-part">
+                <tr>
+                    <td> 
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>-->
+                            <li><a href="/"><img src="/images/classification.png" id="menu_icon"></a></li>
+                            <li>Classification</li> 
+                        </ul>
+                    </td>
+                    <td>
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>-->
+                            <li><a href="/"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+                            <li>Feature Selection</li> 
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul> 
+                            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+                            <li>Clustering</li> 
+                        </ul>
+                    </td>
+                    <td>
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>-->
+                            <li><a href="/r"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+                            <li>Correlation Analysis</li> 
+                        </ul>
+                    </td>
+                    
+                </tr>
+            </table>
+      `;
+    let kor_rm = `<table id="translation-part">
+                <tr>
+                    <td> 
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>-->
+                            <li><a href="/"><img src="/images/classification.png" id="menu_icon"></a></li>
+                            <li>분류 분석</li> 
+                        </ul>
+                    </td>
+                    <td>
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>-->
+                            <li><a href="/"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+                            <li>중요 특성 선택</li> 
+                        </ul>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <ul> 
+                            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+                            <li>군집 분석</li> 
+                        </ul>
+                    </td>
+                    <td>
+                        <ul> <!-- 임시 disable
+                            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>-->
+                            <li><a href="/"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+                            <li>상관관계 분석</li> 
+                        </ul>
+                    </td>
+                    
+                </tr>
+            </table>`;
+    if (document.body.data.isEng) document.getElementById("translation-part").innerHTML = eng_rm;
+    else document.getElementById("translation-part").innerHTML = kor_rm;
+    //번역 버튼 클릭시
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng)  document.getElementById("translation-part").innerHTML = eng_rm;
+        else document.getElementById("translation-part").innerHTML = kor_rm;
+    })
+</script>

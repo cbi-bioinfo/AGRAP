@@ -1,0 +1,382 @@
+<main class="search__main" id="translation-part">
+
+</main>
+<script type="text/javascript">
+    //한-영 번역 기능
+    let eng_cluster = `<main class="search__main" id="translation-part">
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>Classification</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>Feature Selection</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+            <li>Correlation Analysis</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <!--explain classification-->
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">Clustering</li>
+            </ul>
+            <div id="explain_content">
+                <h1>What is Clustering? </h1> <br>
+                Clustering is an unsupervised machine learning task.
+                It involves automatically discovering natural grouping in data.
+                Unlike supervised learning (like predictive modeling), clustering algorithms only interpret the input
+                data and find natural groups or clusters in feature space. <br>
+                <p style="font-weight: 200;">
+                    <br>
+                    (Unsupervised learning (UL) is a type of algorithm that learns patterns from untagged data. The hope
+                    is that through mimicry, the machine is forced to build a compact internal representation of its
+                    world.)
+
+                    <br><br>
+                <details>
+                    <summary>Algorithms</summary>
+                    <div class="summary-content">
+                        <br>
+                        <h5>K-means Clustering</h5>
+                        K-means clustering is a type of unsupervised learning. The goal of this algorithm is to find
+                        groups in the data, with the number of groups represented by the variable K. The algorithm works
+                        iteratively to assign each data point to one of K groups based on the features that are
+                        provided. Data points are clustered based on feature similarity.<br><br>
+                        <h5>DBSCAN</h5>
+                        Density-Based Spatial Clustering of Applications with Noise (DBSCAN) is a base algorithm for
+                        density-based clustering. It can discover clusters of different shapes and sizes from a large
+                        amount of data, which is containing noise and outliers.<br><br>
+                        <h5>Hierarchial Clustering</h5>
+                        Linear Regression is a supervised machine learning algorithm where the predicted output is
+                        continuous and has a constant slope. It's used to predict values within a continuous range,
+                        (e.g. sales, price) rather than trying to classify them into categories (e.g. cat, dog). There
+                        are two main types: Simple regression and Multivariable regression.
+
+                    </div>
+                </details>
+
+                </p>
+
+            </div>
+        </div>
+        <!--set parameters & results-->
+        <div class="main_div">
+            <div class="parameters">
+                <h2>Choose Parameters</h2>
+                <!--run and post to fileProcess.js's /classification-run-->
+                <form action="/file/clustering-run" method="POST" class="param-form">
+                    <div>
+                        <h3>K-means Clustering</h3>
+                        <span class="param-label">n_clusters</span>
+                        <p style="font-size: x-small;">
+                            The number of clusters to form as well as the number of centroids to generate.
+                            <br> <br>(int, default=8)
+                        </p>
+                        <input type="text" name="kmeans_n_clusters" value="<%=param_cluster.kmeans_n_clusters%>">
+                        <br>
+                        <span class="param-label">max_iter</span>
+                        <p style="font-size: x-small;">
+                            Maximum number of iterations of the k-means algorithm for a single run.
+                            <br> <br>(int, default=300)
+                        </p>
+                        <input type="text" name="max_iter" value="<%=param_cluster.max_iter%>">
+
+
+
+                    </div>
+                    <div>
+                        <h3>DBSCAN</h3>
+                        <span class="param-label">eps</span>
+                        <p style="font-size: x-small;">
+                            The maximum distance between two samples for one to be considered as in the neighborhood of
+                            the other. This is not a maximum bound on the distances of points within a cluster. This is
+                            the most important DBSCAN parameter to choose appropriately for your data set and distance
+                            function.
+                            <br><br>(float, default=0.5)
+                        </p>
+
+                        <input type="text" name="eps" value="<%=param_cluster.eps%>">
+                        <br>
+                        <span class="param-label">min_samples</span>
+                        <p style="font-size: x-small;">
+                            The number of samples (or total weight) in a neighborhood for a point to be considered as a
+                            core point. This includes the point itself.
+                            <br><br>(int, default=5)
+                        </p>
+
+                        <input type="text" name="min_samples" value="<%=param_cluster.min_samples%>">
+
+                    </div>
+                    <div>
+                        <h3>Hierarchial Clustering</h3>
+                        <span class="param-label">n_clusters</span>
+                        <p style="font-size: x-small;">
+                            The number of clusters to find. It must be None if distance_threshold is not None.
+                            <br><br>(int or None, default=2)
+                        </p>
+
+                        <input type="text" name="hc_n_clusters" value="<%=param_cluster.hc_n_clusters%>">
+
+                    </div>
+                    <div class="btn-wrapper">
+                    <div id="loading">
+                        <img src="/images/loading.gif">
+                    </div>
+                        <input type="submit" id="btn" value="Run"></input>
+
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="result_div">
+                <h2>Results</h2>
+                <div class="result_content">
+
+                    <div class="result-image-wrapper2">
+                        <h3>Silhouette Score</h3>
+                        <p>Kmeans clustering was used to check Silhouette score. In general, if the silhouette score of
+                            all clusters is greater than 0.5, it seems that data is well clustered. </p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br> ▪ Click on an image for more details.</p>
+                        <img src="/files/<%=maindata.cluster_img1%>" class="result-image" />
+                        <h3>Dendrogram</h3>
+                        <p>The complete linkage method was used to measure the distance between clusters, which is the
+                            method that uses the farthest distance between the two clusters.</p>
+                        <p style="font-weight: 200;font-size: x-small;">▪ Click on an image for more details.</p>
+                        <img src="/files/<%=maindata.cluster_img2%>" class="result-image" />
+                        <h3>PCA</h3>
+                        <p>After reducing the dimension to 2D with 2D principal component analysis(2 component PCA),
+                            K-means clustering was performed on 4 clusters.</p>
+                        <details>
+                            <summary>What is PCA(Principal Component Analysis)? </summary>
+                            <p>
+                                Principal Component Analysis, or PCA, is a dimensionality-reduction method that is often
+                                used to reduce the dimensionality of large data sets, by transforming a large set of
+                                variables into a smaller one that still contains most of the information in the large
+                                set. Reducing the number of variables of a data set naturally comes at the expense of
+                                accuracy, but the trick in dimensionality reduction is to trade a little accuracy for
+                                simplicity. Because smaller data sets are easier to explore and visualize and make
+                                analyzing data much easier and faster for machine learning algorithms without extraneous
+                                variables to process. In conclusion, the idea of PCA is that reduce the number of
+                                variables of a data set, while preserving as much information as possible.
+
+                            </p>
+                        </details>
+                        <p style="font-weight: 200;font-size: x-small;"> <br> ▪ Click on an image for more details.</p>
+                        <img src="/files/<%=maindata.pca_img%>" class="result-image" />
+
+                    </div>
+
+                </div>
+
+                <div class="file-download">
+                    <% if(Object.keys(maindata).length !=0) { %>
+                        <button type="button" id="res_btn" data-tooltip-text="<%=maindata.cluster_img1%>
+                                <%=maindata.cluster_img2%>
+                                <%=maindata.pca_img%>
+                                <%=maindata.resultfilename4%>
+				<%=maindata.resultfilename5%>
+				<%=maindata.resultfilename8%>">
+                            <a href="/file/clustering_<%=maindata.filename%>_.zip">Result File Download</a></button>
+
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</main>`
+    let kor_cluster = `<main class="search__main" id="translation-part">
+    
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>분류 분석</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>중요 특성 선택</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+            <li>상관관계 분석</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <!--explain classification-->
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">군집 분석</li>
+            </ul>
+            <div id="explain_content">
+                <h1>군집 분석이란? </h1> <br>
+                군집 분석은 각 개체의 클래스 정보 없이 특성이 유사한 개체끼리의 그룹화를 수행하는 비지도 기계학습 알고리즘이다.<br>
+                예측 및 분류 모델 기반의 지도적 학습 기법과 다르게, 클러스터링 알고리즘은 라벨 값 없이 입력 데이터의 특성만 활용하여 데이터들의 그룹과 클러스터를 탐색한다. <br>
+                <p style="font-weight: 200;">
+                    <br>
+                    (비지도 학습은 입력데이터에 대한 목표값 없이 데이터가 어떻게 구성되었는지를 알아내는 기계 학습 기법으로, 비정제 데이터를 입력하여 훈련 데이터 없이 데이터의 특징 요약과 군집 분석을 수행한다.)
+
+                    <br><br>
+                <details>
+                    <summary>지원하는 군집 분석 알고리즘</summary>
+                    <div class="summary-content">
+                        <br>
+                        <h5>K-means clustering</h5>
+                        대표적인 분리형 군집화 알고리즘 가운데 하나로, 
+                        각 군집은 하나의 중심(centroid)을 가진다. 각 개체는 가장 가까운 중심에 할당되며, 
+                        같은 중심에 할당된 개체들이 모여 하나의 군집을 형성함. 사용자가 사전에 군집 수(𝑘)를 기반으로 알고리즘을 수행할 수 있다.<br><br>
+                        <h5>DBSCAN</h5>
+                        DBSCAN (Density-based Spatial Clustering of Applications with Noise)은 비선형 클러스터의 군집이나 다양한 크기를 갖는 공간 데이터를 보다 효과적으로 군집하기 위해 이웃한 개체와의 밀도를 계산하여 군집하는 기법이다.
+                        해당 알고리즘은 노이즈와 이상치를 포함한 많은 양의 데이터로부터 여러 크기의 클러스터를 형성할 수 있다.<br><br>
+                        <h5>Hierarchial Clustering</h5>
+                        계층적 트리 모형을 이용해 개별 개체들을 순차적, 계층적으로 유사한 개체 내지 그룹과 통합하여 군집화를 수행하는 알고리즘이다. 
+                        개체들이 결합되는 순서를 나타내는 트리형태의 구조인 덴드로그램(Dendrogram)을 생성한 후 적절한 수준에서 트리를 자르면 전체 데이터를 군집으로 나눌 수 있다.
+
+                    </div>
+                </details>
+
+                </p>
+
+            </div>
+        </div>
+        <!--set parameters & results-->
+        <div class="main_div">
+            <div class="parameters">
+                <h2>파라미터 선택</h2>
+                <!--run and post to fileProcess.js's /classification-run-->
+                <form action="/file/clustering-run" method="POST" class="param-form">
+                    <div>
+                        <h3>K-means Clustering</h3>
+                        <span class="param-label">n_clusters</span>
+                        <p style="font-size: small;">
+                            클러스터의 개수이면서 동시에 생성할 중심 (centroid)의 개수 
+                            <br> <br>(정수형, 디폴트=3)
+                        </p>
+                        <input type="text" name="kmeans_n_clusters" value="<%=param_cluster.kmeans_n_clusters%>">
+                        <br>
+                        <span class="param-label">max_iter</span>
+                        <p style="font-size: small;">
+                            k-means 알고리즘 단일 수행에 대한 최대 iteration 수 
+                            <br> <br>(정수형, 디폴트=300)
+                        </p>
+                        <input type="text" name="max_iter" value="<%=param_cluster.max_iter%>">
+
+
+
+                    </div>
+                    <div>
+                        <h3>DBSCAN</h3>
+                        <span class="param-label">eps</span>
+                        <p style="font-size: small;">
+                            서로 이웃으로 고려될 수 있도록 하는 두 샘플 간의 최대 거리로, 클러스터 내 두 데이터 포인트 간의 최대 거리가 아님을 주의해야함. <br>
+                            DBSCAN에서 가장 중요한 파라미터 중 하나로 입력 데이터에 적절한 값으로 설정해야함.
+                            <br><br>(실수형, 디폴트=0.5)
+                        </p>
+
+                        <input type="text" name="eps" value="<%=param_cluster.eps%>">
+                        <br>
+                        <span class="param-label">min_samples</span>
+                        <p style="font-size: small;">
+                            각 데이터 포인터에 대해 core point로 고려될 수 있는 이웃 내 샘플 수. 
+                            <br><br>(정수형, 디폴트=5)
+                        </p>
+
+                        <input type="text" name="min_samples" value="<%=param_cluster.min_samples%>">
+
+                    </div>
+                    <div>
+                        <h3>Hierarchial Clustering</h3>
+                        <span class="param-label">n_clusters</span>
+                        <p style="font-size: small;">
+                            탐색하고자 하는 클러스터 수 
+                            <br><br>(정수형, 디폴트=2)
+                        </p>
+
+                        <input type="text" name="hc_n_clusters" value="<%=param_cluster.hc_n_clusters%>">
+
+                    </div>
+                    <div class="btn-wrapper">
+                    <div id="loading" style="display: block;z-index: 99;">
+                        <img src="/images/loading.gif">
+                    </div>
+                        <input type="submit" id="btn" value="재실행"></input>
+                    </div>
+
+
+                </form>
+            </div>
+            <div class="result_div">
+                <h2>분석 결과 및 시각화</h2>
+                <div class="result_content">
+
+                    <div class="result-image-wrapper2">
+                        <h3>Silhouette Score</h3>
+                        <p>Silhouette score 측정을 위해 K-means clustering 결과가 사용되었음. 일반적으로, 모든 클러스들의 silhouette score가 0.5 이상일 경우, 데이터가 적절하게 클러스터링 된 것으로 판단함. </p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br> ▪ 사진 클릭시, 확대</p>
+                        <img src="/files/<%=maindata.cluster_img1%>" class="result-image" />
+                        <h3>Dendrogram</h3>
+                        <p>두 클러스터 사이의 가장 거리가 긴 거리를 사용하는 the complete linkage method를 사용하여 클러스터 간의 거리를 측정함.</p>
+                        <p style="font-weight: 200;font-size: x-small;">▪ 사진 클릭시, 확대</p>
+                        <img src="/files/<%=maindata.cluster_img2%>" class="result-image" />
+                        <h3>클러스터링 결과 시각화</h3>
+                        <p>주성분 분석 (2 component PCA)를 기반으로 데이터 차원을 2차원으로 축소 한 후, K-means 클러스터링 결과를 시각화함. </p>
+                        <details>
+                            <summary>주성분 분석이란? </summary>
+                            <p>
+                                주 성분 분석(PCA)은 크기가 큰 데이터 집합의 차원을 축소하는데 사용되는 차원 축소 기법이다. 대규모 데이터를 적은 변수의 집합으로 변환함으로서, 최대한 많은 정보의 보존을 통해 데이터를 비교적 더 쉽게 탐색하고 시각화할 수 있도록 한다.
+                            </p>
+                        </details>
+                        <p style="font-weight: 200;font-size: x-small;"> <br>▪ 사진 클릭시, 확대</p>
+                        <img src="/files/<%=maindata.pca_img%>" class="result-image" />
+
+                    </div>
+
+                </div>
+
+                <div class="file-download">
+                    <% if(Object.keys(maindata).length !=0) { %>
+                        <button type="button" id="res_btn" data-tooltip-text="<%=maindata.cluster_img1%>
+                                <%=maindata.cluster_img2%>
+                                <%=maindata.pca_img%>
+                                <%=maindata.resultfilename4%>
+				<%=maindata.resultfilename5%>
+				<%=maindata.resultfilename8%>">
+                            <a href="/file/clustering_<%=maindata.filename%>_.zip">결과 파일 다운로드</a></button>
+
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+
+</main>`
+    if (document.body.data.isEng) document.getElementById("translation-part").innerHTML = eng_cluster;
+    else document.getElementById("translation-part").innerHTML = kor_cluster;
+    //번역버튼 클릭시
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_cluster;
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_cluster;
+        }
+        document.getElementById("loading").style.display = "none";
+        let submitBtn = document.querySelector(".param-form #btn");
+        submitBtn.addEventListener("click", function (event) {
+            document.getElementById("loading").style.display = "block";
+        });
+    })
+</script>

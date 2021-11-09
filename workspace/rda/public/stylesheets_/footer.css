@@ -1,0 +1,84 @@
+footer {
+    background-color: #282C34;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 40px 30px 20px 30px;
+}
+
+.address-group {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.footer-logo {
+    margin-right: 20px;
+}
+
+.address-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.address-content .name {
+    font-size: 22px;
+    padding-top: 15px;
+}
+
+.address {
+    line-height: 20px;
+}
+
+.tel {
+    display: flex;
+    justify-content: space-between;
+}
+
+.p-20 {
+    padding-top: 20px;
+}
+
+.social {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex: 1;
+
+}
+
+.sns-group {
+    display:flex;
+    margin-bottom: 10px;
+    align-self: flex-end;
+}
+
+.sns-group ul{
+    list-style-type: none;
+    overflow: hidden;
+    padding: 0;
+}
+
+.sns-group li {
+    float: left;
+    padding-right: 30px;
+}
+
+.sns-group li a {
+    color: #fff;
+}
+
+.sns-group li a:visited {
+    color: #fff;
+}
+
+.stationery {
+    line-height: 20px;
+    text-align: end;
+}
+
+.footer-bottom {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+}

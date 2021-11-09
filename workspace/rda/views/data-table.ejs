@@ -1,0 +1,202 @@
+<html>
+<!--데이터 테이블-->
+<body>
+    <div class="wrapper">
+
+        <%if(path=="/list"){%>
+            <span>Showing 30 index</span>
+        <%}%>
+        
+        <!--column 선택 박스-->
+        <div><button id="col-sel-btn" onclick="show()">Columns</button></div></div>
+        <div class="check-col-box" id="check-col-box" style="display: none;">
+            <form>
+                <% col.forEach((column,idx)=>{
+                    if(idx< 21|| (method=="post"&&(column==search.col||column==search.col2||column==search.col3))){ %>
+                        <div><input type="checkbox" checked name="sel-col" onclick="sel()" value=<%=column %>/>
+                            <%=column %>
+                        </div>
+                        <%} else{%>
+                            <div><input type="checkbox" name="sel-col" onclick="sel()" value=<%=column %>/><%=column%>
+                            </div>
+                            <%}%>
+                                <%})%>
+            </form>
+        </div>
+        <!--data table-->
+        <div class="data-table-div">
+            <table class="data-table-table">
+                
+                <!--데이터 column-->
+                <thead>
+                    <tr id="th-tr">
+                        <th class="data-table-th">
+                            Index
+                        </th>
+                        <% col.forEach((column,idx)=>{
+                            if(idx >20){%>
+                            <th class="data-table-th" style="display: none;" id="<%=column%>">
+                                <%=column%>
+                            </th>
+                            <%} 
+                            if(idx <= 20||(path=="/searchResult"&&column==search.col)||(path=="/advSearchResult"&&(column==search.col||column==search.col2||column==search.col3))){%>
+                                <th class="data-table-th" id="<%=column%>">
+                                    <%=column%>
+                                </th>
+                                <%} })%>
+                                    </th>
+                    </tr>
+                </thead>
+
+                <!--데이터 rows-->
+                <tbody>
+                    <% for(var i=(page * 30) - 30; i<(page * 30); i++) { if(i> length){
+                        i++;
+                        }else{
+                        %>
+                        <tr class="data-table-tr">
+                            <td class="data-table-td">
+                                <%=i+1%>
+                            </td>
+                            <div id="data-table-td-wrapper">
+                                <% col.forEach((column, idx)=>{
+                                    if(idx >20){%>
+                                    <td class="data-table-td" id="<%=column%>" style="display: none;">
+                                        <%=data[i][column]%>
+                                    </td>
+                                    <%}  
+                                    if(idx <= 20||(path=="/searchResult"&&column==search.col)||(path=="/advSearchResult"&&(column==search.col||column==search.col2||column==search.col3))){%>
+                                        <td class="data-table-td" id="<%=column%>">
+                                            <%=data[i][column]%>
+                                        </td>
+                                        <%}})%>
+                            </div>
+                        </tr>
+                        <%}}%>
+                </tbody>
+                <script>
+                    function sel() {
+                        //선택 col만 display
+                        var check = document.getElementsByName('sel-col');
+                        var col = `<%=col%>`.split(",");
+                        col.forEach((c, idx) => {
+                            if (!check[idx].checked) {
+                                var elms = document.querySelectorAll("[id='" + c + "']");
+                                for (var i = 0; i < elms.length; i++)
+                                    elms[i].style.display = "none";
+                            }
+                            else {
+                                
+                                var elms = document.querySelectorAll("[id='" + c + "']");
+                                for (var i = 0; i < elms.length; i++){
+                                console.log(c, i);    
+                                elms[i].style.display = "";}
+                            }
+                        })
+
+                    }
+                </script>
+            </table>
+
+        </div>
+        <span class="notice">Total <%=parseInt((length+1) /30)+1%> pages</span>
+        <nav>
+            <ul class="pagination">
+                <% var limit=8; 
+                var currentPage=parseInt(page); 
+                var prevPage=(parseInt((currentPage-1)/8)-1)*8+1; 
+                var nextPage=(parseInt((currentPage-1)/8)+1)*8+1; 
+                var previousBtnEnabled=currentPage>8;
+                var nextBtnEnabled = currentPage < ((length+1) / 30) && nextPage < ((length+1) / 30); 
+                var start=currentPage - (currentPage%8==0?8:currentPage%8); 
+                %>
+                <%if(previousBtnEnabled){%>
+                            <li>
+                                <a aria-label="Previous" class="page-link" id="prev"
+                                    <%if(method=="get"){%>
+                                    href="/<%=type%><%=path%>/<%=prevPage %>"<%}
+                                    else if(path=="/columnResult"){%>
+                                        href="javascript:pageSubmit(null,<%=prevPage %>)"<%}
+                                    else{%>
+                                    href="javascript:pageSubmit(<%=prevPage %>)"<%}%>>
+                                    <span aria-hidden="true"><i class="fas fa-angle-double-left"></i></span>
+                                </a>
+                            </li>
+                            <%}%>
+
+                                <% for(var j=start; j < (length+1) / 30 && j < (start+8); j++){
+                                    if(j+1==currentPage){ %>
+                                    <li class="active">
+                                        <a 
+                                        <%if(method=="get"){%>
+                                        href="/<%=type%><%=path%>/<%=j+1%>"<%}
+                                        else if(path=="/columnResult"){%>
+                                            href="javascript:pageSubmit(null,<%=j + 1  %>)"<%}
+                                        else{%>
+                                        href="javascript:pageSubmit(<%= j + 1 %>)"<%}%>>
+                                            <%= j + 1 %>
+                                        </a>
+                                    </li>
+
+                                    <%} else{ %>
+                                        <li>
+                                            <a 
+                                            <%if(method=="get"){%>
+                                            href="/<%=type%><%=path%>/<%=j+1%>"<%}
+                                            else if(path=="/columnResult"){%>
+                                                href="javascript:pageSubmit(null,<%=j + 1  %>)"<%}
+                                            else{%>
+                                            href="javascript:pageSubmit(<%= j + 1 %>)"<%}%>>
+                                                <%= j + 1 %>
+                                            </a>
+                                        </li>
+
+                                        <% } %>
+                                            <% } %>
+                                                <%if(nextBtnEnabled){%>
+                                                    <li>
+
+                                                        <a class="page-link" id="next" aria-label="Next"
+                                                            nextBtnEnabled?
+                                                            
+                                    <%if(method=="get"){%>
+                                        href="/<%=type%><%=path%>/<%=nextPage %>"<%}
+                                        else if(path=="/columnResult"){%>
+                                            href="javascript:pageSubmit(null,<%=nextPage %>)"<%}
+                                        else{%>
+                                        href="javascript:pageSubmit(<%=nextPage %>)"<%}%> :``>
+                                                            <span aria-hidden="true"><i
+                                                                    class="fas fa-angle-double-right"></i></span>
+                                                        </a>
+                                                    </li>
+                                                    <%}%>
+            </ul>
+        </nav>
+        <span></span>
+</body>
+<script>
+    //번역
+    if (document.body.data.isEng) document.getElementById("col-sel-btn").innerHTML = `Columns <i class="fas fa-caret-down"></i>`;
+    else document.getElementById("col-sel-btn").innerHTML = `특성 선택 <i class="fas fa-caret-down"></i>`;
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("col-sel-btn").innerHTML = `Columns <i class="fas fa-caret-down"></i>`;
+        }
+        else {
+            document.getElementById("col-sel-btn").innerHTML = `특성 선택 <i class="fas fa-caret-down"></i>`;
+        }
+    })
+    //col 선택 박스 모달 기능
+    document.addEventListener("click", (e) => {
+        if ('check-col-box' != e.target.id && 'col-sel-btn' != e.target.id) {
+            document.getElementById('check-col-box').style.display = "none";
+        }
+    }
+    );
+    function show() {
+        document.getElementById('check-col-box').style.display = "block";
+    }
+
+</script>
+</html>

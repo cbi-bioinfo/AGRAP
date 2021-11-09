@@ -1,0 +1,38 @@
+.stripe-space {
+    padding: 10px;
+    background-color:#f1f1f1
+}
+
+.about {
+    display: flex;
+    flex-direction: column;
+}
+
+.about-platform {
+    display: flex;
+    flex-direction: column;
+    margin: 50px 30px 25px 30px;
+    border-bottom: 2px solid #9A9A9A;
+}
+
+.about-reference {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 30px 25px 30px;
+}
+
+.about-platform__heading,
+.about-reference__heading {
+    font-size: 32px;
+}
+
+.about-platform__content,
+.about-reference__content {
+    line-height: 25px;
+    padding: 30px 0px;
+}
+
+.about-reference .reference-title {
+    font-weight: 700;
+}
+

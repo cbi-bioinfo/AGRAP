@@ -1,0 +1,306 @@
+<main class="search__main">
+    <div class="top_border"></div>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>Classification</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>Clustering</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+            <li>Correlation Analysis</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">Feature Selection</li>
+            </ul>
+            <div id="explain_content">
+                <h1>What is Feature Importance? :</h1> <br>
+                Feature importance refers to techniques that assign a score to input features based on how useful they
+                are at predicting a target variable. <br> <br> Feature importance scores play an important role in a
+                predictive modeling project, including providing insight into the data, insight into the model, and the
+                basis for dimenstionality reduction and feature selection that can improve the efficiency and
+                effectiveness of a predictive model on the problem. <br>
+            </div>
+        </div>
+        <div class="main_div">
+            <div class="parameters">
+                <h2>Feature Selection</h2>
+                <form action="/file/feature-run" method="POST" class="param-form">
+                    <div>
+                        <h3>What is Feature selections?</h3>
+                        <p style="margin-left: -10px; font-size: 15px;">
+                            <br>
+                            Feature selection has done by Random Forest, L1 selection, Logistic Regression, SVM RFE
+                            methods.
+                        </p>
+                        <br>
+                        ∙ Random Forest
+                        <br>
+
+                        <p>
+                            Random Forest selects features considering importance of feature.
+                        </p>
+
+                        <br><br>
+                        ∙ L1 selection (Logistic Regression, LinearSVC)
+                        <br>
+                        <p>
+                            As L1 regularization delete certain features during weight update process, L1 reflect only
+                            key features that have significant impact.
+                            L1 feature selection has applied to LinearSVC (Linear support vector classfier) and Logistic
+                            Regression.
+
+                        </p>
+                        <br><br>
+                        ∙ SVM RFE
+                        <br>
+                        <p>
+                            SVM RFE (support vector machine recursive feature elimination) is one of the backward
+                            methods, in which all features are included first, and then the features of low importance
+                            are removed one by one while applying svm repeatedly.
+
+                        </p>
+
+                        <br>
+                        <h3>The Number of Feature Selections</h3>
+                        <p>You can choose the number of feature to select only in Random Forest and SVM RFE methods.
+                        </p>
+                        <input type="text" name="feature_selection_num"
+                            value="<%=param_feature.feature_selection_num%>">
+
+                        <input type="submit" id="btn" value="Run" style="margin:0;"></input>
+                        <div id="loading" style="display: block;z-index: 99;position:absolute; padding:6px;">
+                            <img src="/images/loading.gif">
+                        </div>
+                    </div>
+                    <div id="feature_sel"></div>
+                    <div class="file-download">
+                        <% if(Object.keys(maindata).length !=0) { %>
+                            <button type="button" id="res_btn" data-tooltip-text=" <%=maindata.resultfilename6%>  "><a
+                                    href="/file/<%=maindata.resultfilename6%>">Result File Download</a></button>
+
+                            <% } %>
+                    </div>
+                </form>
+            </div>
+            <div class="result_div" style="background-color: #eff1fe;">
+                <h2>Fearture importance</h2>
+                <div class="result_content">
+                    <div class="result-image-wrapper">
+                        <div class="feature-div">
+                            <h3>Feature importance</h3>
+                            <p>The chart of feature importances measured by randomforest classifier.</p>
+                            <div id="feature_imp"></div>
+
+                        </div>
+
+                    </div>
+                    <div class="file-download">
+                        <% if(Object.keys(maindata).length !=0) { %>
+                            <button type="button" id="res_btn"
+                                data-tooltip-text=" <%=maindata.resultfilename2%> <%=maindata.feature_img1%> <%=maindata.feature_img2%> "><a
+                                    href="/file/feature_selection_<%=maindata.filename%>_.zip">Result File
+                                    Download</a></button>
+
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<script>
+    document.getElementById("loading").style.display = "none";
+    let submitBtn = document.querySelector(".param-form #btn");
+    submitBtn.addEventListener("click", function (event) {
+        document.getElementById("loading").style.display = "inline";
+    });
+
+
+</script>
+<script type="text/javascript">
+    var img = document.getElementsByClassName('result-image');
+    for (var x = 0; x < img.length; x++) {
+        img.item(x).onclick = function () { window.open(this.src) };
+    }
+</script>
+<script src="https://d3js.org/d3.v4.js"></script>
+
+
+<script>
+
+    // set the dimensions and margins of the graph
+    var margin = { top: 50, right: 50, bottom: 50, left: 110 },
+        width = 450 - margin.left - margin.right,
+        height = 450 - margin.top - margin.bottom;
+
+    // append the svg object to the body of the page
+    var svg = d3.select("#feature_imp")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
+
+    // Parse the Data
+    d3.csv("/files/" + "<%=maindata.resultfilename3%>", function (data) {
+
+        // sort data
+        data.sort(function (b, a) {
+            return a.Value - b.Value;
+        });
+
+
+        // Y axis
+        var y = d3.scaleBand()
+            .range([0, height])
+            .domain(data.map(function (d) { return d.features_name; }))
+            .padding(1);
+
+        svg.append("g")
+            .call(d3.axisLeft(y).tickSize(0))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)")
+            .attr("font-weight", "600")
+            .attr("fill", "#4e6075")
+
+
+
+        // Add X axis
+        var x = d3.scaleLinear()
+            .domain([0, 0.22])
+            .range([0, width]);
+        svg.append("g")
+            .attr("transform", "translate(0," + height + ")")
+            .call(d3.axisBottom(x))
+            .selectAll("text")
+            .attr("transform", "translate(-10,0)rotate(-45)")
+            .attr("fill", "#383d8a")
+            .style("text-anchor", "end");
+        svg.selectAll(".domain")
+            .remove()
+
+        svg.selectAll("text")
+            .attr("font-size", "12px")
+
+
+
+
+        // Lines
+        svg.selectAll("myline")
+            .data(data)
+            .enter()
+            .append("line")
+            .attr("x1", x(0))
+            .attr("x2", x(0))
+            .attr("y1", function (d) { return y(d.features_name); })
+            .attr("y2", function (d) { return y(d.features_name); })
+            .attr("stroke", "#383d8a")
+            .attr("stroke-width", 5)
+
+        // Circles -> start at X=0
+        svg.selectAll("mycircle")
+            .data(data)
+            .enter()
+            .append("circle")
+            .attr("cx", x(0))
+            .attr("cy", function (d) { return y(d.features_name); })
+            .attr("r", "7")
+            .style("fill", "#383d8a")
+            .attr("stroke", "#383d8a")
+            .attr("stroke-width", 3)
+            .on("mouseover", function () { d3.select(this).attr("data-tooltip-text", function (d) { return d.importance; }) })
+            .on("mouseout", function () { d3.select(this).attr("data-tooltip-text", function (d) { return "" }) })
+
+        // Change the X coordinates of line and circle
+        svg.selectAll("circle")
+            .transition()
+            .duration(2000)
+            .attr("cx", function (d) { return x(d.importance); })
+
+        svg.selectAll("line")
+            .transition()
+            .duration(2000)
+            .attr("x1", function (d) { return x(d.importance); })
+
+    })
+
+</script>
+<script type="text/javascript">
+
+
+    d3.csv("/files/" + "<%=maindata.resultfilename7%>", function (data) {
+        function tabulate(data, columns) {
+            var table = d3.select("#feature_sel")
+                .style("margin", " 5%")
+                .style("padding-bottom", "2%")
+                .style("background-color", "white")
+                , columnNames = ["RF", "LinearSVC", "LR", "REF"]
+                , thead = table.append("thead")
+                , tbody = table.append("tbody");
+
+
+
+            // append the header row
+            thead.append("tr")
+                .selectAll("th")
+                .data(columnNames)
+                .enter()
+                .append("th")
+                .style("vertical-align", "middle")
+                .text(function (columnNames) { return columnNames; });
+
+
+            thead.selectAll("tr")
+                .style("color", "white")
+                .style("font-size", "medium")
+                .style("height", "40px")
+                .style("background-color", "#205492")
+                .style("font-weight", "600");
+
+
+
+
+
+            // create a row for each object in the data
+            var rows = tbody.selectAll("tr")
+                .data(data)
+                .enter()
+                .append("tr");
+            // create a cell in each row for each column
+            var cells = rows.selectAll("td")
+                .data(function (row) {
+                    return columns.map(function (column) {
+
+                        return { column: column, value: row[column] };
+                    });
+                })
+                .enter()
+                .append("td")
+                .style("background-color", "#ffffff")
+                .style("font-size", "1.8vh")
+                .style("color", "#09284d")
+                .style("font-weight", "bold")
+                .style("padding", "15px")
+                .style("width", "600px")
+                .style("text-align", "center")
+                .html(function (d) { return d.value; });
+
+
+            return table;
+        };
+
+        tabulate(data, ["Random Forest", "L1 based LinearSVC", "L1 based Log Regression", "RFE"])//The names of the columns in the CSV file
+
+
+    });
+</script>

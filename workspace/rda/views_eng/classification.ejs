@@ -1,0 +1,220 @@
+<main class="search__main">
+    <div class="search__tab">
+        <ul class="tab-list">
+            <li class="tab selected">
+            <a href="/file/classication">Classification</a></li>
+            <li class="tab">
+            <a href="/file/feature_selection">Feature Selection</a></li>
+            <li class="tab">
+            <a href="/file/clustering">Clustering</a></li>
+            <li class="tab">
+            <a href="/file/correlation_analysis">Correlation Analysis</a></li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <div class="file-download">
+            <% if(Object.keys(data).length != 0) { %> 
+                <button type="button" id="result_btn"><a href="/file/<%=data.resultfilename%>">Result File Download</a></button>
+                <span><%=data.resultfilename%></span>
+            <% } %>
+        </div>
+
+	<div class="result-image-wrapper">
+
+    	    <div id="my_dataviz"></div>
+       	    <div id="feature_imp"></div>
+	    
+       </div>
+       <!--
+	 <div class="result-image-wrapper">
+            <img src="/images/<%=image%>" class="result-image" />
+        </div>
+	-->
+    </div> 
+	 
+</main>
+
+<script type="text/javascript">
+
+
+//boxplot
+    var margin = {top: 50, right: 30, bottom: 30, left: 100},
+    width = 550 - margin.left - margin.right,
+    height = 450 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+//Array for columns(Method)
+var data_list=[]
+data_list[0]=[]
+data_list[1]=[]
+data_list[2]=[]
+data_list[3]=[]
+data_list[4]=[]
+var fill_list=['#7498b1','#d67d68','#ec983e','#c7c457','#fed643']
+var stroke_list=['#2a4456','#733b2e','#7e4911','#615f1f','#876f15']
+var domain_max=-1;
+// Read the data and compute summary statistics for each specie
+d3.csv("/files/10cv_acc.csv", function(d, i, columns) {
+        for (var i = 1, n = columns.length; i < n; ++i)
+            d[columns[i]] = +d[columns[i]]
+        //column(Method)'s data into data_list
+        for (var i = 1, n = columns.length; i < n; ++i)
+            data_list[i-1].push(d[columns[i]])
+
+        return d;
+    },function(data) {
+        //Draw boxplots by method
+        for (var i = 0, n = data.columns.length-1; i < n; ++i){
+                // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
+                var sumstat = data_list[i].sort(d3.ascending)
+                var q1 = d3.quantile(sumstat, .25)
+                var median = d3.quantile(sumstat, .5)
+                var q3 = d3.quantile(sumstat, .75)
+                var end = d3.quantile(sumstat,.99)
+                var interQuantileRange = q3 - q1
+                var in_min = q1 - 1.5 * interQuantileRange
+                var in_max = q3 + 1.5 * interQuantileRange
+         
+                var max = -1
+                var min = 100
+                for (var j=0; j<data.length;j++){
+                    if(data_list[i][j] >max && data_list[i][j] < in_max){
+                        max = data_list[i][j]
+                    }
+                    if (data_list[i][j] < min && data_list[i][j] > in_min){
+                        min = data_list[i][j];
+                    }
+                }
+                if(max>domain_max)domain_max=max
+
+                // a few features for the box
+                var y = d3.scaleLinear()
+                    .domain([0,domain_max])
+                    .range([height, 0]);
+                svg.call(d3.axisLeft(y))
+
+                // Show the X Scale
+                var x = d3.scaleBand()
+                    .range([ 0, width ])
+                    .domain(data.columns.slice(1))
+                    .paddingInner(1)
+                    .paddingOuter(.5)
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+
+                var box_width = 50
+                var center=width/10*(2*i+1)
+                // Show the main vertical line
+                svg.selectAll("text")
+                    .attr("fill", "#333333")
+                    .style("font-size", "12px");
+                
+                svg
+                .append("line")
+                .attr("x1", center)
+                .attr("x2", center)
+                .attr("y1", y(min) )
+                .attr("y2", y(max) )
+                .attr("stroke", "#333333")
+                // Show the box
+                svg
+                .append("rect")
+                .attr("x", (center - box_width/2))
+                .attr("y", y(q3) )
+                .attr("height", (y(q1)-y(q3)) )
+                .attr("width", box_width )
+                .attr("fill", fill_list[i])
+                .attr("stroke", stroke_list[i])
+               // show median lines
+                svg
+                .selectAll("horizontal_lines")
+                .data([median])
+                .enter()
+                .append("line")
+                .attr("x1", center-box_width/2)
+                .attr("x2", center+box_width/2)
+                .attr("y1", function(d){ return(y(d))} )
+                .attr("y2", function(d){ return(y(d))} )
+                .attr("stroke", stroke_list[i])
+        	.style("stroke-width", "2px")
+	}
+})
+
+//lollipop chart
+
+var margin2 = {top2: 50, right2: 30, bottom2: 40, left2: 100},
+width2 = 550 - margin2.left2 - margin2.right2,
+height2 = 500 - margin2.top2 - margin2.bottom2;
+
+// append the svg object to the body of the page
+var svg2 = d3.select("#feature_imp")
+.append("svg")
+.attr("width", width2 + margin2.left2 + margin2.right2)
+.attr("height", height2 + margin2.top2 + margin2.bottom2)
+.append("g")
+.attr("transform",
+      "translate(" + margin2.left2 + "," + margin2.top2 + ")");
+
+// Parse the Data
+d3.csv("/files/importance_score_test.csv", function(data) {
+
+// sort data
+data.sort(function(b, a) {
+return a.Value - b.Value;
+});
+
+// Add X axis
+var x2 = d3.scaleLinear()
+.domain([0, 0.22])
+.range([ 0, width2]);
+svg2.append("g")
+.attr("transform", "translate(0," + height2 + ")")
+.call(d3.axisBottom(x2))
+.selectAll("text")
+.attr("transform", "translate(-10,0)rotate(-45)")
+.style("text-anchor", "end");
+
+// Y axis
+var y2 = d3.scaleBand()
+.range([ 0, height2 ])
+.domain(data.map(function(d) { return d.features_name; }))
+.padding(1);
+svg2.append("g")
+.call(d3.axisLeft(y2))
+
+// Lines
+svg2.selectAll("myline")
+.data(data)
+.enter()
+.append("line")
+.attr("x1", function(d) { return x2(d.importance); })
+.attr("x2", x2(0))
+.attr("y1", function(d) { return y2(d.features_name); })
+.attr("y2", function(d) { return y2(d.features_name); })
+.attr("stroke", "black")
+
+// Circles
+svg2.selectAll("mycircle")
+.data(data)
+.enter()
+.append("circle")
+.attr("cx", function(d) { return x2(d.importance); })
+.attr("cy", function(d) { return y2(d.features_name); })
+.attr("r", "7")
+.style("fill", "#7498b1")
+.attr("stroke", "#7498b1")
+})
+
+</script>
+
+
+

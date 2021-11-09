@@ -1,0 +1,88 @@
+<header class="header">
+    <div class="header__header-sm">
+        <div class="header__sm-logo">
+            <%- include('smLogo.ejs') %>
+        </div>
+        <div class="header__sm-title">
+            <span class="sm-title" id="sm-title"></span>
+        </div>
+
+
+    </div>
+    <div class="header__header-platform">
+        <div class="header__platform-title">
+            <a href="/"><span class="platform-title" id="platform-title"></span></a>
+        </div>
+        <div class="header__platform-menu">
+            <ul class="platform__menu-list">
+                <li class="menu">
+                    <a href="/menu/about">About</a>
+                </li>
+                <li class="menu data-menu">
+                    <div>
+                        <a>Data</a>
+                    <ul class="dropdown-submenu">
+                        <li><a class="dropdown-item" href="/pepper/list/1">고추 유전자원</a></li>
+                        <li><a class="dropdown-item" href="/rice/list/1">벼 유전자원</a></li>
+                    </ul>
+                    </div>
+                    
+                </li>
+                <li class="menu">
+                    <a href="/menu/help">Help</a>
+                </li>
+                
+            </ul>
+        </div>
+        <div class="header__platform-menu-dropdown">
+            <i class="fas fa-bars fa-2x"></i>
+            <div class="dropdown-content">
+                <a href="/menu/about">About</a>
+                <a href="/menu/contact">Contact</a>
+                <a href="javascript:void(0);" onclick="helpHandler();">Help</a>
+            </div>
+        </div>
+        <div class="translation">
+
+            <button id="translate-btn"></button>
+
+        </div>
+    </div>
+
+</header>
+
+<script>
+    let eng = `<span class="sm-title">Sookmyung Women's University</span>`
+    let eng2 = "Agricultural Genetic Resource Analysis";
+    let kor = `<span class="sm-title">숙명여자대학교</span>`
+    let kor2 = "농업유전자원 분석 플랫폼";
+    //localstorage 데이터 
+    if (document.body.data.isEng) {
+        document.getElementById("sm-title").innerHTML = eng;
+        document.getElementById("platform-title").innerHTML = eng2;
+        document.getElementById("translate-btn").innerHTML = "한글 번역";
+    }
+    else {
+        document.getElementById("sm-title").innerHTML = kor;
+        document.getElementById("platform-title").innerHTML = kor2;
+        document.getElementById("translate-btn").innerHTML = "English";
+    }
+    var btn = document.querySelector('#translate-btn');
+    //번역 버튼 클릭시,
+    btn.addEventListener('click', function transEvent() {
+        document.body.data.isEng = !document.body.data.isEng;
+        document.getElementById('translate-btn').innerHTML = document.body.data.isEng ? "한글 번역" : "English";
+        if (document.body.data.isEng) {
+            document.getElementById("sm-title").innerHTML = eng;
+            document.getElementById("platform-title").innerHTML = eng2;
+        }
+        else {
+            document.getElementById("sm-title").innerHTML = kor;
+            document.getElementById("platform-title").innerHTML = kor2;
+        }
+        window.localStorage.setItem("translation", JSON.stringify({ isEng: document.body.data.isEng }))
+    })
+    function helpHandler() {
+        document.querySelector('footer').scrollIntoView();
+    }
+</script>

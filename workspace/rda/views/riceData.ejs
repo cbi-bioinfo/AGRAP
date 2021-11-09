@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <div class="data">
+        <hr />
+        <div class="top-nav">
+            <ul class="nav nav-tabs" id="translation-part">
+            </ul>
+        </div>
+        <h1 id="translation-part2"></h1>
+        <%- include('data-table.ejs')%>
+    </div>
+</body>
+
+<script>
+    let eng_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation" class="active"><a href="/rice/list/1">DataSet</a></li>
+                <li role="presentation"><a href="/rice/search/1">Search</a></li>
+                <!--임시 disable
+                <li role="presentation"><a href="/rice/advSearch/1">Multiple Search</a></li>
+                <li role="presentation"><a href="/rice/column">Feature Search</a></li>-->
+            </ul>`
+    let kor_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation" class="active"><a href="/rice/list/1">데이터 조회</a></li>
+                <li role="presentation"><a href="/rice/search/1">검색</a></li>
+                <!--임시 disable
+                <li role="presentation"><a href="/rice/advSearch/1">다중 검색</a></li>
+                <li role="presentation"><a href="/rice/column">특징 검색</a></li>-->
+            </ul>`
+    if (document.body.data.isEng) {
+        document.getElementById("translation-part").innerHTML = eng_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 Data Set";
+    }
+    else {
+        document.getElementById("translation-part").innerHTML = kor_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 데이터";
+    }
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 Data Set";
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 데이터";
+        }
+    })
+</script>
+
+</html>

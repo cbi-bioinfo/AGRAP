@@ -1,0 +1,95 @@
+<footer>
+    <div class="address-group" id="address-group">
+       
+    </div>
+    <div class="footer-bottom">
+        <div>
+            ⓒ 2020 Agricultural Genetic Resource Analysis Platform - All rights reserved
+        </div>
+    </div>
+</footer>
+<script>
+    //번영 eng , kor
+    let eng7 = `<div class="address-group" id="address-group">
+        <p class="footer-logo">
+            <%- include('smLogo.ejs') %>
+        </p>
+        <div class="address-content">
+            <div class="name">
+                <strong>Sookmyung Women's University</strong>
+            </div>
+            <div class="address p-20">
+                100, Cheongpa-ro, 47-gil, Yongsan-gu, <br> Seoul, Republic of Korea
+            </div>
+            <div class="tel p-20">
+                <div>T. 02)710-9114</div>
+                <div>F. 02)718-2337</div>
+            </div>
+        </div>
+        <div class="social">
+            <div class="sns-group">
+                <div>
+                    <ul>
+                        <li><a href="https://www.instagram.com/sookmyung_women.s_univ/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.youtube.com/SookmyungUniv" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="https://blog.naver.com/iamsookmyung" target="_blank"><i class="fab fa-blogger"></i></a></li>
+                        <li><a href="https://www.facebook.com/SookmyungUniversity" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.linkedin.com/school/%EC%88%99%EB%AA%85%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="stationery">
+                This Research was supported by <strong>Sookmyung Women's University. <br>
+This work was supported by the Agenda project (PJ0143072019)<br> of the Rural Development Administration, Republic of Korea.</strong>
+            </div>
+        </div>
+    </div>`
+    let kor7 = `<div class="address-group" id="address-group">
+        <p class="footer-logo">
+            <%- include('smLogo.ejs') %>
+        </p>
+        <div class="address-content">
+            <div class="name">
+                <strong>숙명여자대학교</strong>
+            </div>
+            <div class="address p-20">
+                서울시 용산구 청파로 47길 100
+            </div>
+            <div class="tel p-20">
+                <div>T. 02)710-9114</div>
+                <div>F. 02)718-2337</div>
+            </div>
+        </div>
+        <div class="social">
+            <div class="sns-group">
+                <div>
+                    <ul>
+                        <li><a href="https://www.instagram.com/sookmyung_women.s_univ/" target="_blank"><i class="fab fa-instagram"></i></a></li>
+                        <li><a href="https://www.youtube.com/SookmyungUniv" target="_blank"><i class="fab fa-youtube"></i></a></li>
+                        <li><a href="https://blog.naver.com/iamsookmyung" target="_blank"><i class="fab fa-blogger"></i></a></li>
+                        <li><a href="https://www.facebook.com/SookmyungUniversity" target="_blank"><i class="fab fa-facebook-f"></i></a></li>
+                        <li><a href="https://www.linkedin.com/school/%EC%88%99%EB%AA%85%EC%97%AC%EC%9E%90%EB%8C%80%ED%95%99%EA%B5%90" target="_blank"><i class="fab fa-linkedin-in"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="stationery">본 연구는 농촌진흥청 아젠다 사업 (과제번호: PJ0143072019)의 지원에 의해 수행됨.</strong>
+            </div>
+        </div>
+    </div>`
+    if (document.body.data.isEng) {
+        document.getElementById("address-group").innerHTML = eng7;
+    }
+    else {
+        document.getElementById("address-group").innerHTML = kor7;
+    }
+    var btn_footer = document.querySelector('#translate-btn');
+    btn_footer.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("address-group").innerHTML = eng7;
+        }
+        else {
+            document.getElementById("address-group").innerHTML = kor7;
+        }
+
+    })
+</script>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <script>
+        document.body.data = {
+            isEng: JSON.parse(window.localStorage.getItem("translation")).isEng
+        }
+    </script>
+    <%- include('header.ejs') %>
+    <div class="stripe-space"></div>
+		<div class="header-container">
+			<div class="header-content about">
+				<div class="header-text">
+					<h1>About</h1>
+					<p>Agricultural Genetic Resource Analysis Platform</p>
+				</div>
+				<div class="header-img-cover"></div>
+			</div>
+		</div>
+		<div>
+			<div class="about-content-wrapper">
+				<div class="about-content-box">
+					<img class="content-box-item logo" src="/images/about.png">
+					<span class="content-box-item title">About</span>
+					<p id="translation-part">Agricultural genetic resources are important source in the field of agriculture and biotechnology industry for food production increase and maintaining the biodiversity. As the basic material for the research of improving varieties and developing new species, analysis for features in agricultural genetic resource is needed. However, identifying important features and performing correlation analysis based on the resources are limited, which makes it difficult for the efficient data utilization. “Agricultural Genetic Resource Analysis” is a web-based platform performing machine learning based analysis using the agricultural genetic dataset. It provides classification, clustering, feature selection and correlation analysis with an intuitive interface and allows users to obtain understanding of important features in the dataset.</p>
+					<br><br>
+				</div>
+				<div class="about-content-box">
+					<span class="content-box-item title">Reference</span>
+					<p>Powered by <a href="https://getbootstrap.com/">Bootstrap</a> & <a href="https://www.amcharts.com/">amCharts4</a> & <a href="https://scikit-learn.org/stable/#">scikit-learn</a> & <a href="https://matplotlib.org/">matplotlib</a> & <a href="https://seaborn.pydata.org/#">seaborn</a> & <a href="https://nodejs.org/ko/">node.js</a></p>
+					<p>Icons made by <a href="https://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></p>
+				</div>
+			</div>
+		</div>
+        </div>
+    </main>
+    <%- include('footer.ejs') %>
+</body>
+<script>
+	    let eng_about=`Agricultural genetic resources are important source in the field of
+                agriculture and biotechnology industry for food production increase and maintaining the biodiversity. As
+                the basic material for the research of improving varieties and developing new species, analysis for
+                features in agricultural genetic resource is needed. However, identifying important features and
+                performing correlation analysis based on the resources are limited, which makes it difficult for the
+                efficient data utilization. “Agricultural Genetic Resource Analysis” is a web-based platform performing
+                machine learning based analysis using the agricultural genetic dataset. It provides classification,
+                clustering, feature selection and correlation analysis with an intuitive interface and allows users to
+                obtain understanding of important features in the dataset.`
+    let kor_about=`농업 유전자원은 새로운 품종의 육성과 신물질 추출 등의 생명공학 연구의 기초 재료로서 중요한 가치를 지니고 있다.
+                식량 생산 증진 및 생물다양성 유지를 위해 유전자원의 확보 및 보존의 중요성이 부각 되고 있다.
+                최근, 머신러닝 (Machine learning) 기반의 데이터 분석이 여러 분야에서 높은 성능을 보임에 따라, 농업 유전자원 데이터에도 머신러닝 기법 적용을 통해 효율적인 특성
+                분석이 가능할 것으로 기대된다.
+                하지만, 머신러닝 기반의 유전자원 데이터 분석에는 내부 기술에 대한 이해 및 알고리즘 구현 과정이 요구되며, 일반 사용자가 이를 수행하기는 쉽지 않다.
+                이에 따라 머신러닝 기반의 분석 연구가 미미하며, 유전자원의 효율적인 활용이 힘든 실정이다. 
+                농업 유전자원 분석 플랫폼은 머신러닝 기반의 농업 유전자원 데이터 분석 웹 플랫폼으로서, 사용자로부터 입력받은 유전자원 데이터에 대해 군집
+                분석, 분류 분석, 중요 특징 추출, 상관관계 분석을 수행하여 결과를 제공한다.
+            `
+    if (document.body.data.isEng){ 
+        document.getElementById("translation-part").innerHTML = eng_about;
+    }
+    else{ 
+        document.getElementById("translation-part").innerHTML = kor_about;
+    }
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_about;
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_about; 
+        }
+    })
+</script>
+</html>

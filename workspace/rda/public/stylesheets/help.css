@@ -1,0 +1,107 @@
+.section-wrapper.page-width-normal{
+	max-width: 70%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  box-sizing: content-box;
+}
+
+.header-container{
+	position: relative;
+	margin-bottom: 50px;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.header-content {
+	width: 100%;
+  height: 350px;
+	display: flex;
+  margin-left: auto;
+  margin-right: auto;
+	z-index: 2;
+}
+
+.header-content.help{
+	background-image: url('/images/sookmyung1.jpg');
+	background-size: cover;
+}
+
+.header-text {
+	max-width: 100%;
+	position: relative;
+  z-index: 50;
+	text-align: center;
+  margin: 100px auto 0 auto;
+}
+
+.header-text h1 {
+	color: #ffffff;
+	font-size: 2.75em;
+	font-weight: 800;
+	line-height: 60px;
+}
+
+.header-text p {
+	color: #ffffff;
+	font-size: 15px;
+	line-height: 20px;
+}
+
+.header-img-cover{
+	position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(100, 100, 100, 0.4);                                                                 
+  z-index:3;
+}
+
+.help-content-wrapper {
+	width: 100%;
+  top: -30px;
+  flex-direction: row;
+	position: relative;
+  display: flex;
+	margin: 0 auto 0 auto;
+}
+
+.help-content-box {
+	z-index: 100;
+	width: 70%;
+  margin: -100px 20px 100px 20px;
+	display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 40px;
+  background-color: #fff;
+  border: 3px solid #eaf0f6;
+}
+
+.content-box-item {
+	max-width: 100%;
+  margin-bottom: 24px;
+}
+
+.content-box-item.logo{
+	height: 70px;
+  width: 70px;
+	margin-top: 20px;
+
+}
+
+.content-box-item.title {
+	margin-bottom: 40px;
+  font-weight: 700;
+	font-size: 23px;
+  color: #33475b;
+}
+
+.content-box-item.sub{
+	font-weight: 700;
+	font-size: 17px;
+  color: #49627a;
+}
+
+.help-content-box:first-child {
+  margin-right: 20px;
+}
