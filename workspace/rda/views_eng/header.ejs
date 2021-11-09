@@ -1,0 +1,42 @@
+<header class="header">
+    <div class="header__header-sm">
+        <div class="header__sm-logo">
+            <%- include('smLogo.ejs') %>
+        </div>
+        <div class="header__sm-title">
+            <span class="sm-title">Sookmyung Women's University</span>
+        </div>
+    </div>
+    <div class="header__header-platform">
+        <div class="header__platform-title">
+            <a href="/"><span class="platform-title">Agricultural Genetic Resource Analysis</span></a>
+        </div>
+        <div class="header__platform-menu">
+            <ul class="platform__menu-list">
+                <li class="menu">
+                    <a href="/menu/about">About</a>
+                </li>
+                <li class="menu">
+                    <a href="/menu/contact">Contact</a>
+                </li>
+                <li class="menu">
+                    <a href="javascript:void(0);" onclick="helpHandler();">Help</a>
+                </li>
+            </ul>
+        </div>
+        <div class="header__platform-menu-dropdown">
+            <i class="fas fa-bars fa-2x"></i>
+            <div class="dropdown-content">
+                <a href="/menu/about">About</a>
+                <a href="/menu/contact">Contact</a>
+                <a href="javascript:void(0);" onclick="helpHandler();">Help</a>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+    function helpHandler() {
+        document.querySelector('footer').scrollIntoView();
+    }
+</script>

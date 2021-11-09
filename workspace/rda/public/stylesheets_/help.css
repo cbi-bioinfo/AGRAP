@@ -1,0 +1,58 @@
+.contact-main {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 30px;
+}
+.contact-main-content {
+    margin-top: 20px;
+    width: 1400px;
+    height: 800px;
+    background: url(
+        /images/sookmyung2.jpg
+    );
+    background-size: 100%;
+    opacity: 0.85!important;
+    filter:alpha(opacity=85);
+    z-index: -1;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+}
+
+.contact-info {
+    background: rgba(255, 255, 255, 0.95);
+    display: inline-block;
+    padding: 2em;
+    margin: 2em;
+    border-radius: 5px;
+}
+
+.contact-info h1, .contact-info h2 {
+    color: #205493;
+    margin: 0;
+    padding: 0;
+}
+
+.contact-info h1 {
+    font-size: 2.75em;
+    font-weight: 400;
+    line-height: 60px;
+}
+
+.contact-info h2 {
+    font-size: 2.2em;
+    font-weight: 400;
+    line-height: 40px;
+    margin: 25px 0px 15px 0px;
+}
+
+.contact-info .e-mail {
+    color: #0071bc;
+}
+
+.contact-info p {
+    line-height: 25px;
+}
+
+.contact-info p strong {
+    font-weight: 700;
+}

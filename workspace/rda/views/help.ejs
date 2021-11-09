@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body>
+    <script>
+        document.body.data = {
+            isEng: JSON.parse(window.localStorage.getItem("translation")).isEng
+        }
+    </script>
+    <%- include('header.ejs') %>
+    <div class="stripe-space"></div>
+		<div class="header-container">
+			<div class="header-content help">
+				<div class="header-text">
+					<h1>Contact</h1>
+					<p>Agricultural Genetic Resource Analysis Platform</p>
+				</div>
+				<div class="header-img-cover"></div>
+			</div>
+			
+		</div>
+		<div class="section-wrapper page-width-normal">
+			<div class="help-content-wrapper">
+				<div class="help-content-box">
+					<img class="content-box-item logo" src="/images/email.png">
+					<span class="content-box-item title">Email</span>
+					<span class="content-box-item sub">General Help Desk</span>
+					<p>miniymay@sookmyung.ac.kr</p>
+					<br><br>
+					<span class="content-box-item sub">Programmatic Access Questions</span>
+					<p>cbi.bioinfo@google.com</p>
+
+				</div>
+				<div class="help-content-box">
+					<img class="content-box-item logo" src="/images/placeholder.png">
+					<span class="content-box-item title">Platform</span>
+					<span class="content-box-item sub">Sookmyung Women's University</span>
+					<p>Sookmyung Women's University</p><br>
+					<p>100, Cheongpa-ro, 47-gil, Yongsan-gu,</p><br>
+					<p>Seoul, Republic of Korea</p>
+				</div>
+			</div>
+		</div>
+    <%- include('footer.ejs') %>
+</body>
+</html>

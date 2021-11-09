@@ -1,0 +1,90 @@
+<main class="search__main">
+    <div class="top_border"></div>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>Classification</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>Feature Selection</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>Clustering</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">Correlation</li>
+            </ul>
+            <div id="explain_content">
+                <h1>What is Correlation ? :</h1> <br>
+                A correlation is a statistical measurement of the relationship between two variables. Possible
+                correlations range from +1 to –1. A zero correlation indicates that there is no relationship between the
+                variables.A correlation of –1 indicates a perfect negative correlation, meaning that as one variable
+                goes up, the other goes down. A correlation of +1 indicates a perfect positive correlation, meaning that
+                both variables move in the same direction together.
+            </div>
+        </div>
+        <div class="result_div2">
+            <h2>Results</h2>
+            <div class="result_content">
+                <div class="result-image-wrapper">
+                    <div class="corr-div">
+                        <h3>Pearson Correlation Tri Heatmap</h3>
+                        <p>Lower triangular version of Pearson correlation heatmap.</p>
+                        <p>Each cell in the heatmap is a quantification of the Pearson Correlation coefficient (linear
+                            correlation) between the two variables.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img3%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Spearman Correlation Tri Heatmap</h3>
+                        <p>Lower triangular version of Spearman correlation heatmap.</p>
+                        <p>Each cell in the heatmap is a quantification of the Spearman’s rank Correlation coefficent
+                            (monotonic correlation) between the two variables.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img4%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Pairplot</h3>
+                        <p><br>Pairplot displays the pairwise relationship in the intervals where each variable
+                            intersects. The diagonal plots are treated differently: a univariate distribution plot is
+                            drawn to show the marginal distribution of the data in each column.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img5%>" class="result-image" />
+
+                    </div>
+                </div>
+                <div class="file-download">
+                    <% if(Object.keys(maindata).length !=0) { %>
+                        <button type="button" id="res_btn"
+                            data-tooltip-text="<%=maindata.corr_img1%> <%=maindata.corr_img2%> <%=maindata.corr_img3%> <%=maindata.corr_img4%> <%=maindata.corr_img5%>"><a
+                                href="/file/corrrelation_<%=maindata.filename%>_.zip">Result File Download</a></button>
+
+                        <% } %>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+</main>
+<script type="text/javascript">
+    var img = document.getElementsByClassName('result-image');
+    for (var x = 0; x < img.length; x++) {
+        img.item(x).onclick = function () { window.open(this.src) };
+    }
+</script>

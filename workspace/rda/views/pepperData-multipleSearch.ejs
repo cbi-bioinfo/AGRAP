@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+  <div class="data advancedSearch">
+    <hr />
+    <div class="top-nav">
+      <ul class="nav nav-tabs" id="translation-part">
+      </ul>
+    </div>
+    <h1 id="translation-part2"></h1>
+    <div class="data-search-wrapper advanced-search">
+      <!--column 선택 from-->
+      <form method="POST" action="/pepper/advSearchResult/1" name="form" onsubmit="return pageSearchSubmit()">
+        <div class="input-group-wrapper">
+          <div class="input-group">
+            <select class="form-control" aria-label="Default select example" name="col" id="col">
+              <option selected>select column</option>
+              <% col.map(it=> {
+                if(method=="post"&& search.col==it){%>
+                <option selected value="<%=it%>">
+                  <%=it%>
+                </option>
+                <%} else{%>
+                  <option value="<%=it%>">
+                    <%=it%>
+                  </option>
+
+                  <%}})%>
+            </select>
+            <input class="form-control" name="search" id="search" type="text" <%if(method=="post" ){%> value=
+            <%=search.search%>
+              <%}%>>
+          </div>
+          <div class="input-group">
+            <select class="form-control" aria-label="Default select example" name="col2" id="col2">
+              <option selected>select column</option>
+              <% col.map(it=> {
+                if(method=="post"&& search.col2==it){%>
+                <option selected value="<%=it%>">
+                  <%=it%>
+                </option>
+                <%} else{%>
+                  <option value="<%=it%>">
+                    <%=it%>
+                  </option>
+
+                  <%}})%>
+            </select>
+            <input class="form-control" name="search2" id="search2" type="text" <%if(method=="post" ){%> value=
+            <%=search.search2%>
+              <%}%>>
+          </div>
+          <div class="input-group">
+            <select class="form-control" aria-label="Default select example" name="col3" id="col3">
+              <option selected>select column</option>
+              <% col.map(it=> {
+                if(method=="post"&& search.col3==it){%>
+                <option selected value="<%=it%>">
+                  <%=it%>
+                </option>
+                <%} else{%>
+                  <option value="<%=it%>">
+                    <%=it%>
+                  </option>
+
+                  <%}})%>
+            </select>
+            <input class="form-control" name="search3" id="search3" type="text" <%if(method=="post" ){%> value=
+            <%=search.search3%>
+              <%}%>>
+          </div>
+        </div>
+        <input class="btn btn-default" type="submit" value="search" />
+      </form>
+    </div>
+
+    <script>
+      function pageSearchSubmit() {
+        //search 에러 처리
+        try {
+          if (document.getElementById("col").value == "select column" && document.getElementById("col2").value == "select column" && document.getElementById("col3").value == "select column") {
+            throw Error("Column을 선택해 주세요.")
+          }
+          else if (document.getElementById("search").value && document.getElementById("col").value == "select column") {
+            throw Error("Column을 선택해 주세요.")
+          }
+          else if (document.getElementById("search2").value && document.getElementById("col2").value == "select column") {
+            throw Error("Column을 선택해 주세요.")
+          }
+          else if (document.getElementById("search3").value && document.getElementById("col3").value == "select column") {
+            throw Error("Column을 선택해 주세요.")
+          }
+          else {
+            var f = document.form;
+            f.col.value = document.getElementById("col").value;
+            f.search.value = document.getElementById("search").value;
+            f.col2.value = document.getElementById("col2").value;
+            f.search2.value = document.getElementById("search2").value;
+            f.col3.value = document.getElementById("col3").value;
+            f.search3.value = document.getElementById("search3").value;
+            f.action = `/pepper/advSearchResult/1`;
+            return true;
+          }
+        } catch (error) {
+          alert(error.message)
+          return false;
+        }
+      }
+    </script>
+    <%if(data.length==0){%>
+      <!--검색결과 없을 경우 안내-->
+      <div class="search-notice-wrapper">
+        <i class="fas fa-search"></i>
+        <span>
+          해당 조건의 검색결과가 없습니다.
+        </span>
+      </div>
+      <%} else{%>
+
+        <!--검색결과 있을 경우 데이터 테이블 display-->
+        <%- include('data-table.ejs')%>
+          <%}%>
+            <%if(method=="post"){%>
+
+              <script>
+                //pagenation
+                function pageSubmit(page) {
+                  console.log(page);
+                  var f = document.form;
+                  f.col.value = "<%=search.col%>";
+                  f.search.value = "<%=search.search%>";
+                  f.col2.value = "<%=search.col2%>";
+                  f.search2.value = "<%=search.search2%>";
+                  f.col3.value = "<%=search.col3%>";
+                  f.search3.value = "<%=search.search3%>";
+                  f.action = `/pepper/advSearchResult/${page}`;
+                  f.submit();
+
+
+                }
+              </script>
+              <%}%>
+  </div>
+</body>
+<script>
+  //한-영 번역 기능
+  let eng_nav = `
+  <ul class="nav nav-tabs" id="translation-part">
+              <li role="presentation"><a href="/pepper/list/1">DataSet</a></li>
+              <li role="presentation"><a href="/pepper/search/1">Search</a></li>
+              <li role="presentation" class="active"><a href="/pepper/advSearch/1">Multiple Search</a></li>
+              <li role="presentation"><a href="/pepper/column">Feature Search</a></li>
+          </ul>`
+  let kor_nav = `
+  <ul class="nav nav-tabs" id="translation-part">
+              <li role="presentation"><a href="/pepper/list/1">데이터 조회</a></li>
+              <li role="presentation"><a href="/pepper/search/1">검색</a></li>
+              <li role="presentation" class="active"><a href="/pepper/advSearch/1">다중 검색</a></li>
+              <li role="presentation"><a href="/pepper/column">특징 검색</a></li>
+          </ul>`
+  if (document.body.data.isEng) {
+    document.getElementById("translation-part").innerHTML = eng_nav;
+    document.getElementById("translation-part2").innerHTML = "고추 유전자원 Multiple Search";
+  }
+  else {
+    document.getElementById("translation-part").innerHTML = kor_nav;
+    document.getElementById("translation-part2").innerHTML = "고추 유전자원 다중 검색";
+  }
+  var btn = document.querySelector('#translate-btn');
+  btn.addEventListener('click', function transEvent() {
+    if (document.body.data.isEng) {
+      document.getElementById("translation-part").innerHTML = eng_nav;
+      document.getElementById("translation-part2").innerHTML = "고추 유전자원 Multiple Search";
+    }
+    else {
+      document.getElementById("translation-part").innerHTML = kor_nav;
+      document.getElementById("translation-part2").innerHTML = "고추 유전자원 다중 검색";
+    }
+  })
+</script>
+
+</html>

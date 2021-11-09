@@ -1,0 +1,231 @@
+.index__main .search__wrapper {
+    background: url(/images/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.index__main .search__container {
+    /*display: flex;
+    flex-direction: column;
+    max-width: 800px;
+    min-width: 300px;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;*/
+    width: 100%;
+    max-width: 850px;
+    min-width: 300px;
+    padding: 0 50px;
+    margin: 0 auto;
+    position: relative;
+    overflow: visible;
+    text-align: center;
+    padding-top: calc(8vh - 2em + 100px);
+    padding-bottom: 8vh;
+
+}
+.index__main .search-heading {
+    /*font-size: 60px;*/
+    /*padding: 150px 0px 20px 0px;*/
+    text-align: center;
+    font-size: 3.8em;
+    margin: 0;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.index__main .search-subheading {
+    /*font-size: 20px;
+    padding: 15px 0px 15px 0px;*/
+    font-size: 1.5vw;
+    font-weight: 300;
+    padding: 1em 0px;
+}
+
+.index__main .search-bar {
+    width: 100%;
+    background-color: white;
+    margin: 15px 0px 15px 0px;
+    border-radius: 5px;
+}
+
+.index__main .search-form {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.index__main .search-input {
+    width: 94%;
+    font-size: 28px;
+    padding: 7px 10px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+}
+
+.index__main .file-upload {
+    width: 94%;
+    font-size: 16px;
+    padding: 15px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 5px;
+    z-index: 4;
+    color: #020202;
+}
+.index__main .search-input:focus {
+    outline: none;
+}
+
+.index__main .search-bar i {
+    color: #205492;
+}
+
+.index__main .search-example {
+    width: 100%;
+    padding-bottom: 80px;
+}
+
+.index__main .example-list {
+    display: flex;
+    justify-content: space-between;
+}
+
+.index__main .icon-n {
+    float: left;
+    max-width: 200px;
+    width: 25%;
+    padding: 20px;
+}
+
+.index__main .icon::after {
+    content:"";
+    clear: both;
+    display: table;
+    max-width: 800px;
+    padding-bottom: 30px;
+}
+
+.index__main .platform-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+}
+
+.index__main .description__wrapper {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.index__main .description-heading {
+    display: block;
+    font-size: 35px;
+    padding: 30px 0px;
+}
+
+.index__main .description-content {
+    line-height: 25px;
+    padding-bottom: 30px;
+}
+.index__main .description-content #strong{
+    font-weight: 800;
+}
+.index__main .search-bar-sticky {
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: white;
+    padding: 10px 0px 10px 15px;
+    box-shadow: 0 0 6px 0 rgba(45,49,57,.5);
+}
+
+.index__main .search-bar-sticky form {
+    display: flex;
+    width: 100%;
+}
+
+
+.index__main .search-bar-sticky span {
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.index__main .search-bar-sticky form .search-input-sticky {
+    border: none;
+    font-size: 18px;
+    width: 95%;
+}
+
+.index__main .search-bar-sticky form .search-input-sticky:focus {
+    outline: none;
+}
+
+.index__main .search-bar-sticky form i {
+    color: #205492;
+    font-size: 18px;
+}
+
+.index__main #myProgress {
+    width: 100%;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.index__main #myBar {
+    width: 1%;
+    height: 20px;
+    background-color: #205492;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 600px) {
+    .index__main .search__container {
+        padding: 0 15px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .index__main .search__container {
+        text-align: left;
+        padding-top: calc(4vh - 1.5em + 100px);
+        padding-bottom: 4vh;
+    }
+
+    .index__main .search-heading {
+        text-align: left;
+        font-size: 3em;
+    }
+
+    .index__main .search-subheading {
+        font-size: 1.3em;
+        font-weight: 400;
+    }
+}
+

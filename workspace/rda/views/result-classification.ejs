@@ -1,0 +1,499 @@
+<main class="search__main" id="translation-part">
+</main>
+<script type="text/javascript">
+    function drawBoxPlot() {
+        //boxplot
+        var margin = { top: 50, right: 30, bottom: 30, left: 100 },
+            width = 550 - margin.left - margin.right,
+            height = 450 - margin.top - margin.bottom;
+
+        // append the svg object to the body of the page
+        var svg = d3.select("#my_dataviz")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform",
+                "translate(" + margin.left + "," + margin.top + ")");
+
+        //Array for columns(Method)
+        var data_list = []
+        data_list[0] = []
+        data_list[1] = []
+        data_list[2] = []
+        data_list[3] = []
+        data_list[4] = []
+        var fill_list = ['#7498b1', '#d67d68', '#ec983e', '#c7c457', '#fed643']
+        var stroke_list = ['#2a4456', '#733b2e', '#7e4911', '#615f1f', '#876f15']
+        var domain_max = -1;
+
+        // Read the data and compute summary statistics for each specie
+        d3.csv("/files/" + "<%=maindata.resultfilename%>", function (d, i, columns) {
+            for (var i = 1, n = columns.length; i < n; ++i)
+                d[columns[i]] = +d[columns[i]]
+            //column(Method)'s data into data_list
+            for (var i = 1, n = columns.length; i < n; ++i)
+                data_list[i - 1].push(d[columns[i]])
+
+            return d;
+        }, function (data) {
+            //Draw boxplots by method
+            for (var i = 0, n = data.columns.length - 1; i < n; ++i) {
+                // Compute quartiles, median, inter quantile range min and max --> these info are then used to draw the box.
+                var sumstat = data_list[i].sort(d3.ascending)
+                var q1 = d3.quantile(sumstat, .25)
+                var median = d3.quantile(sumstat, .5)
+                var q3 = d3.quantile(sumstat, .75)
+                var end = d3.quantile(sumstat, .99)
+                var interQuantileRange = q3 - q1
+                var in_min = q1 - 1.5 * interQuantileRange
+                var in_max = q3 + 1.5 * interQuantileRange
+
+                var max = -1
+                var min = 100
+                for (var j = 0; j < data.length; j++) {
+                    if (data_list[i][j] > max && data_list[i][j] < in_max) {
+                        max = data_list[i][j]
+                    }
+                    if (data_list[i][j] < min && data_list[i][j] > in_min) {
+                        min = data_list[i][j];
+                    }
+                }
+                if (max > domain_max) domain_max = max
+
+                // a few features for the box
+                var y = d3.scaleLinear()
+                    .domain([0, domain_max])
+                    .range([height, 0]);
+                svg.call(d3.axisLeft(y))
+
+                // Show the X Scale
+                var x = d3.scaleBand()
+                    .range([0, width])
+                    .domain(data.columns.slice(1))
+                    .paddingInner(1)
+                    .paddingOuter(.5)
+                svg.append("g")
+                    .attr("transform", "translate(0," + height + ")")
+                    .call(d3.axisBottom(x))
+
+                var box_width = 50
+                var center = width / 10 * (2 * i + 1)
+                // Show the main vertical line
+                svg.selectAll("text")
+                    .attr("fill", "#333333")
+                    .style("font-size", "12px");
+
+                svg
+                    .append("line")
+                    .attr("x1", center)
+                    .attr("x2", center)
+                    .attr("y1", y(min))
+                    .attr("y2", y(max))
+                    .attr("stroke", "#333333")
+                // Show the box
+                svg
+                    .append("rect")
+                    .attr("x", (center - box_width / 2))
+                    .attr("y", y(q3))
+                    .attr("height", (y(q1) - y(q3)))
+                    .attr("width", box_width)
+                    .attr("fill", fill_list[i])
+                    .attr("stroke", stroke_list[i])
+                // show median lines
+                svg
+                    .selectAll("horizontal_lines")
+                    .data([median])
+                    .enter()
+                    .append("line")
+                    .attr("x1", center - box_width / 2)
+                    .attr("x2", center + box_width / 2)
+                    .attr("y1", function (d) { return (y(d)) })
+                    .attr("y2", function (d) { return (y(d)) })
+                    .attr("stroke", stroke_list[i])
+                    .style("stroke-width", "2px")
+            }
+        })
+    }
+</script>
+<script>
+    //한-영 번역 기능
+    let eng_classification = `<main class="search__main" id="translation-part">
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>Feature Selection</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>Clustering</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+            <li>Correlation Analysis</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <!--explain classification-->
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">Classification</li>
+            </ul>
+            <div id="explain_content">
+                <h1>What is Classification?</h1> <br>
+                One of supervised machinelearning, classification is the process of predicting the class of given data
+                points.
+                Classes are sometimes called as targets/ labels or categories. <br>
+                <p style="font-weight: 200;">
+                    <br>
+                    (Ex. Given an example, classify if it is spam or not)
+                    <br><br>
+                    (Supervised learning is the machine learning task of learning a function that maps an input to an
+                    output based on example input-output pairs.
+                    It infers a function from labeled training data consisting of a set of training examples.)
+                    <br><br>
+                <details>
+                    <summary>Algorithms</summary>
+                    <div class="summary-content">
+                        <br>
+                        <h5>SVM(Support Vector Machine)</h5>
+                        SVM (Support Vector Machine) is a supervised machine learning algorithm which can be used for
+                        both classification or regression challenges. However, it is mostly used in classification
+                        problems. In the SVM algorithm, we plot each data item as a point in n-dimensional space (where
+                        n is number of features you have) with the value of each feature being the value of a particular
+                        coordinate. Then, we perform classification by finding the hyper-planes that differentiates the
+                        classes very well.
+                        <br><br>
+                        <h5>NB(Naïve Bayes)</h5>
+                        Naïve Bayes Classifier is a classification technique based on Bayes’ Theorem with an assumption
+                        of independence among predictors. In simple terms, a Naive Bayes classifier assumes that the
+                        presence of a particular feature in a class is unrelated to the presence of any other feature.
+                        <br><br>
+                        
+                        <h5>KNN(K-Nearest Neighbors)</h5>
+                        K-nearest neighbors (KNN) algorithm is a simple, supervised machine learning algorithm that can
+                        be used to solve both classification and regression problems. It's easy to implement and
+                        understand, but has a major drawback of becoming significantly slows as the size of that data in
+                        use grows.
+                        <br><br>
+                        <h5>LR(Linear Regression)</h5>
+                        Linear Regression is a supervised machine learning algorithm where the predicted output is
+                        continuous and has a constant slope. It's used to predict values within a continuous range,
+                        (e.g. sales, price) rather than trying to classify them into categories (e.g. cat, dog). There
+                        are two main types: Simple regression and Multivariable regression.
+                        <br><br>
+                        <h5>RF(Random Forest))</h5>
+                        Random forest is an ensemble supervised learning method for classification, regression and other
+                        tasks that operate by constructing a multitude of decision trees at training time and outputting
+                        the class that is the mode of the classes (classification) or mean/average prediction
+                        (regression) of the individual trees.
+
+                    </div>
+                </details>
+                </p>
+            </div>
+        </div>
+        <!--set parameters & results-->
+        <div class="main_div">
+            <div class="parameters">
+                <h2>Choose Parameters</h2>
+                <!--run and post to fileProcess.js's /classification-run-->
+                <form action="/file/classification-run" method="POST" class="param-form">
+                    <div>
+                        <h3>SVM(Support Vector Machine)</h3>
+                        <span class="param-label">Kernel</span>
+                        <p style="font-size: small;">
+                            Specifies the kernel type to be used in the algorithm. It must be one of ‘linear’, ‘poly’,
+                            ‘rbf’, ‘sigmoid’, ‘precomputed’ or a callable. If none is given, ‘rbf’ will be used. If a
+                            callable is given it is used to pre-compute the kernel matrix from data matrices; that
+                            matrix should be an array of shape (n_samples,n_samples).
+                            <br> <br>({‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}, default=’rbf’)
+                        </p>
+
+                        <select name="kernel">
+                            <option value="linear" <% if(param_class.kernel=="linear" ){%> selected <%}%> >linear
+                            </option>
+                            <option value="poly" <% if(param_class.kernel=="poly" ){%> selected <%}%> >poly</option>
+                            <option value="rbf" <% if(param_class.kernel=="rbf" ){%> selected <%}%> >rbf</option>
+                            <option value="sigmoid" <% if(param_class.kernel=="sigmoid" ){%> selected <%}%> >sigmoid
+                            </option>
+                            <option value="precomputed" <% if(param_class.kernel=="precomputed" ){%> selected <%}%>
+                                    >precomputed</option>
+                        </select>
+
+
+                    </div>
+                    <div>
+                        <h3>KNN(K-Nearest Neighbors)</h3>
+                        <span class="param-label">n_neigbors</span>
+                        <p style="font-size: small;">
+                            Number of neighbors to use by default for kneighbors queries.
+                            <br><br>(int, default=5)
+                        </p>
+
+                        <input type="text" name="n_neigbors" value="<%=param_class.n_neigbors%>">
+
+                    </div>
+                    <div>
+                        <h3>RF(Random Forest)</h3>
+                        <span class="param-label">n_estimator</span>
+                        <p style="font-size: small;">
+                            The number of trees in the forest.
+                            <br><br>(int, default=100)
+                        </p>
+
+                        <input type="text" name="n_estimator" value="<%=param_class.n_estimator%>">
+                        <br>
+                        <span class="param-label">criterion</span>
+                        <p style="font-size: small;">
+                            The function to measure the quality of a split. Supported criteria are “gini” for the Gini
+                            impurity and “entropy” for the information gain. Note: this parameter is tree-specific.
+                            <br><br>({“gini”, “entropy”}, default=”gini”)
+                        </p>
+
+                        <select name="criterion">
+                            <option value="gini" <% if(param_class.criterion=="gini" ){%>selected <%}%> >gini</option>
+                            <option value="entropy" <% if(param_class.criterion=="entropy" ){%>selected <%}%> >entropy
+                            </option>
+                        </select>
+                    
+                    </div>
+                    <div class="btn-wrapper">
+                        <div id="loading">
+                            <img src="/images/loading.gif">
+                        </div>
+
+                        <input type="submit" id="btn" value="Run"></input>
+
+                    </div>
+
+                </form>
+            </div>
+            <div class="result_div">
+                <h2>Results</h2>
+                <div class="result_content">
+                    <h3>Box Plot for classification accuracy results</h3>
+                    <p>10-fold cross validation was performed for each classification method, and the accuracy was
+                        measured for their results.</p>
+                    <div class="result-image-wrapper">
+                        <div id="my_dataviz"></div>
+                    </div>
+                    <details>
+                        <summary>What is Box Plot?</summary>
+                        <div class="summary-content">
+                            In descriptive statistics, a boxplot is a method for graphically depicting groups of
+                            numerical data through their quartiles. <br><br>
+                            <h5>A boxplot is composed of several elements</h5><br>
+                            ∙ The line that divides the box into 2 parts represents the median of the data. If the
+                            median is 10, it means that there are the same number of data points below and above 10.<br><br>
+                            ∙ The ends of the box shows the upper (Q3) and lower (Q1) quartiles. If the third quartile
+                            is 15, it means that 75% of the observation are lower than 15.<br><br>
+                            ∙ The difference between Quartiles 1 and 3 is called the interquartile range (IQR).<br><br>
+                            ∙ The extreme line shows Q3+1.5xIQR to Q1-1.5xIQR (the highest and lowest value excluding
+                            outliers).<br>
+                            ∙ Dots (or other markers) beyond the extreme line shows potntial outliers.<br>
+                        </div>
+                    </details>
+                    <div class="file-download">
+
+                        <% if(Object.keys(maindata).length !=0) { %>
+                            <button type="button" id="res_btn" data-tooltip-text="<%=maindata.resultfilename%>"><a
+                                    href="/file/<%=maindata.resultfilename%>">Result File Download</a></button>
+
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>`
+    let kor_classificatoin = `<main class="search__main" id="translation-part">
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>중요 특성 선택</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>군집 분석</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+            <li>상관관계 분석</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <!--explain classification-->
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">분류 분석</li>
+            </ul>
+            <div id="explain_content">
+                <h1>분류 분석이란 ?</h1> <br>
+                분류 분석은 지도 기계 학습 방법 중 하나로, 주어진 데이터의 클래스를 예측하며, 클래스는 대상/레이블 또는 범주로 불리기도 한다. <br>
+                <p style="font-weight: 200;">
+                    <br>
+                    (예시: 이메일로 받은 메일이 스팸메일인지 아닌지 분류)
+                    <br><br>
+                    (지도 학습은 입력-출력 쌍의 예시 데이터를 기반으로 입력을 출력에 매핑하는 기능을 학습하는 기계 학습 작업이다.)
+                    <br><br>
+                <details>
+                    <summary>지원하는 분류 분석 알고리즘</summary>
+                    <div class="summary-content">
+                        <br>
+                        <h5>SVM(Support Vector Machine)</h5>
+                        SVM(Support Vector Machine)은 분류 또는 회귀 과제 모두에 사용할 수 있는 지도 기계 학습 알고리즘이다. 
+                        SVM 알고리즘에서는 각 데이터 항목을 n차원 공간의 점으로 표시하며, n은 보유한 특징, 즉 feature의 수를 의미하고, 
+                        각 클래스를 잘 구분하는 초평면을 찾음으로서 분류 분석을 수행한다.<br><br>
+                        <h5>NB(Naïve Bayes)</h5>
+                        Naïve Bayes Classifier는 예측 변수 간의 독립성을 가정하여 Bayes 이론에 기초한 분류 기법이다. 
+                        간단히 말해 Naive Bayes Classifier는 클래스에 특정 특성의 존재는 다른 특성의 존재와 관련이 없다고 가정한다.
+                        <br><br>
+                        
+                        <h5>KNN(K-Nearest Neighbors)</h5>
+                        KNN(K-Nearest Neighbors) 알고리즘은 분류 및 회귀 문제를 모두 해결하는 데 사용할 수 있는 간단한 지도 기계 학습 알고리즘이다. 
+                        구현과 이해는 쉽지만 사용 중인 데이터의 크기가 커질수록 속도가 현저히 느려지는 큰 단점이 있다.
+                        <br><br>
+                        <h5>LR(Linear Regression)</h5>
+                        선형 회귀 분석(Linear Regression)은 예측된 출력이 연속적이고 기울기가 일정한 지도 기계 학습 알고리즘이다. 
+                        이 값은 범주(예: 고양이, 개)로 분류하는 대신 연속 범위(예: 판매, 가격) 내의 값을 예측하는 데 사용된다. 
+                        <br><br>
+                        <h5>RF(Random Forest))</h5>
+                        랜덤 포레스트(Random Forest)는 훈련 시간에 다수의 의사결정 트리를 구성하고 개별 트리의 클래스(분류) 
+                        또는 평균/평균 예측(회귀) 모드의 클래스를 출력하여 작동하는 분류, 회귀 및 기타 작업에 대한 앙상블 지도 학습 방법이다.
+
+                    </div>
+                </details>
+                </p>
+            </div>
+        </div>
+        <!--set parameters & results-->
+        <div class="main_div">
+            <div class="parameters">
+                <h2>파라미터 선택</h2>
+                <!--run and post to fileProcess.js's /classification-run-->
+                <form action="/file/classification-run" method="POST" class="param-form">
+                    <div>
+                        <h3>SVM(Support Vector Machine)</h3>
+                        <span class="param-label">Kernel</span>
+                        <p style="font-size: small;">
+                            알고리즘에 사용할 커널 유형을 지정: 'linear', 'poly', 'rbf', 'sigmoid', 'precomputed' 또는 'callable' 중 하나여야 함. 아무것도 입력되지 않으면 'rbf'가 사용됨. 
+                            'callable'이 지정된 경우 데이터 행렬에서 커널 행렬을 사전 계산하는 데 사용되며, 해당 행렬은 배열(n_sample,n_sample)로 구성되어야 함.
+                            <br> <br>({‘linear’, ‘poly’, ‘rbf’, ‘sigmoid’, ‘precomputed’}, 디폴트=’rbf’)
+                        </p>
+
+                        <select name="kernel">
+                            <option value="linear" <% if(param_class.kernel=="linear" ){%> selected <%}%> >linear
+                            </option>
+                            <option value="poly" <% if(param_class.kernel=="poly" ){%> selected <%}%> >poly</option>
+                            <option value="rbf" <% if(param_class.kernel=="rbf" ){%> selected <%}%> >rbf</option>
+                            <option value="sigmoid" <% if(param_class.kernel=="sigmoid" ){%> selected <%}%> >sigmoid
+                            </option>
+                            <option value="precomputed" <% if(param_class.kernel=="precomputed" ){%> selected <%}%>
+                                    >precomputed</option>
+                        </select>
+
+
+                    </div>
+                    <div>
+                        <h3>KNN(K-Nearest Neighbors)</h3>
+                        <span class="param-label">n_neigbors</span>
+                        <p style="font-size: small;">
+                            Neighbors 쿼리에 기본적으로 사용할 Neighbors 수.
+                            <br><br>(정수형, 디폴트=5)
+                        </p>
+
+                        <input type="text" name="n_neigbors" value="<%=param_class.n_neigbors%>">
+
+                    </div>
+                    <div>
+                        <h3>RF(Random Forest)</h3>
+                        <span class="param-label">n_estimator</span>
+                        <p style="font-size: small;">
+                            forest에서 트리의 개수.
+                            <br><br>(정수형, 디폴트=100)
+                        </p>
+
+                        <input type="text" name="n_estimator" value="<%=param_class.n_estimator%>">
+                        <br>
+                        <span class="param-label">criterion</span>
+                        <p style="font-size: small;">
+                            분할 품질을 측정하는 함수. 지원되는 기준은 Gini 불순도에 대한 "gini"와 정보 획득에 대한 "entropy". 참고: 이 매개 변수는 트리마다 다름.
+                            <br><br>({“gini”, “entropy”}, 디폴트=”gini”)
+                        </p>
+
+                        <select name="criterion">
+                            <option value="gini" <% if(param_class.criterion=="gini" ){%>selected <%}%> >gini</option>
+                            <option value="entropy" <% if(param_class.criterion=="entropy" ){%>selected <%}%> >entropy
+                            </option>
+                        </select>
+                    
+                    </div>
+                    <div class="btn-wrapper">
+                        <div id="loading">
+                            <img src="/images/loading.gif">
+                        </div>
+                        <input type="submit" id="btn" value="재실행"></input>
+                    </div>
+
+                </form>
+            </div>
+            <div class="result_div">
+                <h2>분석 결과 및 시각화</h2>
+                <div class="result_content">
+                    <h3>분류 정확도 결과 Box Plot</h3>
+                    <p>각 분류 방법별로 10-fold 교차 검증을 실시하여, 그 결과에 대한 정확성을 측정함. Box Plot은 자료로부터 얻어낸 통계량인 5가지 요약 수치를 가지고 그리는 방법임.</p>
+                    <div class="result-image-wrapper">
+                        <div id="my_dataviz"></div>
+                        
+                    </div>
+                    <details>
+                        <summary>Box Plot이란 ?</summary>
+                        <div class="summary-content">
+                            기술 통계에서 Box Plot은 숫자 데이터 그룹을 사분위를 통해 그래픽으로 표시하는 방법.<br><br>
+                            <h5>Box plot은 여러 요소로 구성되어 있음.</h5><br>
+                            ∙ 상자를 두 부분으로 나누는 선은 데이터의 중위수를 나타냄. 중위수가 10이면 10보다 작거나 큰 데이터 점의 수가 같다는 것을 의미함.<br><br>
+                            ∙ 상자의 끝에는 상한(Q3)과 하한(Q1) 사분위가 표시됨. 제3 사분위가 15이면 관측치의 75%가 15보다 작다는 것을 의미함.<br><br>
+                            ∙ 사분위수 1과 3의 차이를 사분위간 범위(IQR)라고 함.<br><br>
+                            ∙ 극한선에는 Q3+1.5xIQR ~ Q1-1.5xIQR(특이값을 제외한 최고값과 최저값)이 표시.<br>
+                            ∙ 극단선 너머의 점(또는 다른 마커)은 잠재적 특이치를 나타냄.<br>
+                        </div>
+                    </details>
+                    <div class="file-download">
+
+                        <% if(Object.keys(maindata).length !=0) { %>
+                            <button type="button" id="res_btn" data-tooltip-text="<%=maindata.resultfilename%>"><a
+                                    href="/file/<%=maindata.resultfilename%>">결과 파일 다운로드</a></button>
+
+                            <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>`
+    if (document.body.data.isEng) document.getElementById("translation-part").innerHTML = eng_classification;
+    else document.getElementById("translation-part").innerHTML = kor_classificatoin;
+    drawBoxPlot();  
+    //번역 버튼 클릭시
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_classification;
+            drawBoxPlot();
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_classificatoin;
+            drawBoxPlot();
+        }
+        document.getElementById("loading").style.display = "none";
+        let submitBtn = document.querySelector(".param-form #btn");
+        submitBtn.addEventListener("click", function (event) {
+            document.getElementById("loading").style.display = "block";
+        });
+    })
+</script>

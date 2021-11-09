@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/6281c0ce53.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/modal/css/jquery.loadingModal.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+
+<body>
+    <script>
+        window.localStorage.setItem("translation", JSON.stringify({ isEng: false }))
+        document.body.data = {
+            isEng: false
+        }
+    </script>
+    <%- include('header.ejs') %>
+
+        <%- include('main.ejs') %>
+
+            <%- include('footer.ejs') %>
+                <script src="http://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
+                <script src="/modal/js/jquery.loadingModal.js"></script>
+                <script type="text/javascript">
+
+                </script>
+
+</body>
+
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <div class="data data-column">
+        <hr />
+        <div class="top-nav">
+            <ul class="nav nav-tabs" id="translation-part">
+            </ul>
+        </div>
+        <h1 id="translation-part2">벼 유전자원 데이터</h1>
+        <!--column 선택 form-->
+        <div class="data-search-wrapper feature-search">
+            <form name="form" action="/rice/column" method="POST">
+                <select class="form-control" aria-label="Default select example" name="col">
+                    <option selected>select column</option>
+                    <% col.map(it=> {
+                        if(method=="post"&&selCol==it){%>
+                        <option selected value="<%=it%>">
+                            <%=it%>
+                        </option>
+                        <%} else{%>
+                            <option value="<%=it%>">
+                                <%=it%>
+                            </option>
+
+                            <%}})%>
+                </select>
+                <input class="btn btn-default" type="submit" name="submit" value="search" />
+            </form>
+        </div>
+        <%if(method=="post"&&!!selCol){%>
+            <!--column 데이터 분석결과-->
+            <div class="col-list-wrapper2">
+                <div class="col-list-wrapper">
+                    <div class="col-list">
+                        <span id="label">
+                            <%=selCol%>
+                        </span>
+                        <div class="list">
+                            <div class="center h">Value</div>
+                            <div class="center h">Count</div>
+                            <!-- 
+                    <div class="center h">Freq</div> -->
+                            <% colGroup.map(it=> {%>
+                                <%if(it.col==''||it.col==' '){%>
+                            <%if(path=="/columnResult"&&search.search==it.col){%>
+                                <div class="body" onclick="pageSubmit(this.id, 1)" id="<%=it.col%>" style="background-color:#EFF8FE;color: #205492;">값없음</div>
+
+                            <%}else{%>
+                                <div class="body" onclick="pageSubmit(this.id, 1)" id="<%=it.col%>" >값없음</div>
+
+                            <%}%>
+                            <%} else{%>
+                                <div class="body" onclick="pageSubmit(this.id, 1)" id="<%=it.col%>" ><%=it.col%>
+                                </div>
+                                <%}%>
+                                    <div class="center" onclick="pageSubmit(this.id, 1)" id=<%=it.cnt%>><%=it.cnt%>
+                                    </div>
+                                    <%})%>
+                </div>
+                </div>
+                <%if(path=="/columnResult"){%>
+                  
+                                <script type="text/javascript">
+                                    //선택 데이터 표시
+                                    document.getElementById("<%=search.search%>").style.backgroundColor = "#EFF8FE";
+                                    document.getElementById("<%=search.search%>").style.color = "#205492";
+                                </script>
+                                <%}%>
+                <!-- d3그래프 위치 -->
+                <script>
+                    am4core.ready(function () {
+                        am4core.useTheme(am4themes_animated);
+                        var chart = am4core.create("chartdiv", am4charts.PieChart);
+                        var pieSeries = chart.series.push(new am4charts.PieSeries());
+                        pieSeries.dataFields.value = "count";
+                        pieSeries.dataFields.category = "value";
+
+                        chart.innerRadius = am4core.percent(30);
+
+
+                        pieSeries.slices.template.stroke = am4core.color("#fff");
+                        pieSeries.slices.template.strokeWidth = 1;
+                        pieSeries.slices.template.strokeOpacity = 1;
+                        pieSeries.slices.template
+
+                        pieSeries.labels.template.disabled = true;
+                        pieSeries.ticks.template.disabled = true;
+                        //그래프 클릭시, 데이터 검색
+                        pieSeries.slices.template.events.on("hit", function (ev) {
+                            let series = ev.target.dataItem.index;
+                            let id = document.querySelectorAll(`div[class="body"]`)[series].id
+                            pageSubmit(id, 1)
+                        });
+                        var shadow = pieSeries.slices.template.filters.push(new am4core.DropShadowFilter);
+                        shadow.opacity = 0;
+
+                        var hoverState = pieSeries.slices.template.states.getKey("hover");
+                        var hoverShadow = hoverState.filters.push(new am4core.DropShadowFilter);
+                        hoverShadow.opacity = 0.5;
+                        hoverShadow.blur = 5;
+
+                        chart.legend = new am4charts.Legend();
+                        chart.legend.position = "right";
+                        chart.legend.scrollable = true;
+                        var marker =
+                            chart.legend.markers.template.children.getIndex(0);
+                        marker.cornerRadius(50, 50, 50, 50);
+                        var markerTemplate = chart.legend.markers.template;
+                        markerTemplate.width = 15;
+                        markerTemplate.height = 15;
+                        // data array 위치
+                        const col = document.querySelectorAll(`div[class="body"]`);
+                        const cnt = document.querySelectorAll(`div[class="center"]`);
+                        const data = [];
+                        col.forEach((d, idx) => data.push({ "value": d.id ? d.id : "값없음", "count": parseInt(cnt[idx].id) }))
+                        chart.data = data;
+                    });
+                </script>
+                    <div id="chartdiv"></div>
+                </div>
+            </div>
+        </div>
+            <%}%>
+                <%if(path=="/columnResult"){%>
+                    <div class="data column">
+                    <%- include('data-table.ejs')%>
+                        </div>
+                        <%}%>
+                            <%if(method=="post"){%>
+                                <!--데이터 선택시, 검색을 위한 가상 form-->
+                                <form name="form2" method="POST" style="display: none;">
+                                    <input value="" name="col" />
+                                    <%if(path=="/columnResult"){%>
+                                        <input value="<%=search.search%>" name="search" />
+                                        <%} else{%>
+                                            <input value="" name="search" />
+                                            <%}%>
+                                </form>
+                                <script type="text/javascript">
+                                    //데이터 검색 value:데이터 요소, page:검색 결과 페이지
+                                    function pageSubmit(value, page) {
+                                        var f = document.form2;
+                                        f.col.value = `<%=selCol%>`;
+                                        f.search.value = value != null ? value : f.search.value;
+                                        f.action = `/rice/columnResult/${page}`;
+                                        f.submit();
+
+                                    }
+                                </script>
+                                <%}%>
+                    </div>
+</body>
+<script>
+    let eng_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation"><a href="/rice/list/1">DataSet</a></li>
+                <li role="presentation"><a href="/rice/search/1">Search</a></li>
+                <li role="presentation"><a href="/rice/advSearch/1">Multiple Search</a></li>
+                <li role="presentation" class="active"><a href="/rice/column">Feature Search</a></li>
+            </ul>`
+    let kor_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation"><a href="/rice/list/1">데이터 조회</a></li>
+                <li role="presentation"><a href="/rice/search/1">검색</a></li>
+                <li role="presentation"><a href="/rice/advSearch/1">다중 검색</a></li>
+                <li role="presentation" class="active"><a href="/rice/column">특징 검색</a></li>
+            </ul>`
+    if (document.body.data.isEng) {
+        document.getElementById("translation-part").innerHTML = eng_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 Feature Search";
+    }
+    else {
+        document.getElementById("translation-part").innerHTML = kor_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 특징 검색";
+    }
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 Feature Search";
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 특성 검색";
+        }
+    })
+</script>
+
+</html>

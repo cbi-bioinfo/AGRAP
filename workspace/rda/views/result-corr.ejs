@@ -1,0 +1,184 @@
+<main class="search__main" id="translation-part"> 
+</main>
+<script type="text/javascript">
+    let eng_corr=`<main class="search__main" id="translation-part"> 
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>Classification</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>Feature Selection</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>Clustering</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">Correlation</li>
+            </ul>
+            <div id="explain_content">
+                <h1>What is Correlation ? </h1> <br>
+                A correlation is a statistical measurement of the relationship between two variables. Possible
+                correlations range from +1 to –1. A zero correlation indicates that there is no relationship between the
+                variables.A correlation of –1 indicates a perfect negative correlation, meaning that as one variable
+                goes up, the other goes down. A correlation of +1 indicates a perfect positive correlation, meaning that
+                both variables move in the same direction together.
+            </div>
+        </div>
+        <div class="result_div2">
+            <h2>Results</h2>
+            <div class="result_content">
+                <div class="result-image-wrapper">
+                    <div class="corr-div">
+                        <h3>Pearson Correlation Tri Heatmap</h3>
+                        <p>Lower triangular version of Pearson correlation heatmap.</p>
+                        <p>Each cell in the heatmap is a quantification of the Pearson Correlation coefficient (linear
+                            correlation) between the two variables.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img3%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Spearman Correlation Tri Heatmap</h3>
+                        <p>Lower triangular version of Spearman correlation heatmap.</p>
+                        <p>Each cell in the heatmap is a quantification of the Spearman’s rank Correlation coefficent
+                            (monotonic correlation) between the two variables.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img4%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Pairplot</h3>
+                        <p>Pairplot displays the pairwise relationship in the intervals where each variable
+                            intersects. The diagonal plots are treated differently: a univariate distribution plot is
+                            drawn to show the marginal distribution of the data in each column.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ Click on an image for more details.
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img5%>" class="result-image" />
+
+                    </div>
+                </div>
+                <div class="file-download">
+                    <% if(Object.keys(maindata).length !=0) { %>
+                        <button type="button" id="res_btn"
+                            data-tooltip-text="<%=maindata.corr_img1%> <%=maindata.corr_img2%> <%=maindata.corr_img3%> <%=maindata.corr_img4%> <%=maindata.corr_img5%>"><a
+                                href="/file/corrrelation_<%=maindata.filename%>_.zip">Result File Download</a></button>
+
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>`
+    let kor_corr=`<main class="search__main" id="translation-part"> 
+    <hr/>
+    <div class="side_menu">
+        <ul id="explain_ul">
+            <li><a href="/results/classification"><img src="/images/classification.png" id="menu_icon"></a></li>
+            <li>분류 분석</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/feature"><img src="/images/feature-selection.png" id="menu_icon"></a></li>
+            <li>중요 특성 선택</li>
+        </ul>
+        <ul id="explain_ul">
+            <li><a href="/results/cluster"><img src="/images/cluster.png" id="menu_icon"></a></li>
+            <li>군집 분석</li>
+        </ul>
+    </div>
+    <div class="search__result">
+        <div class="explain_div">
+            <ul id="explain_ul">
+                <li><a href="/results/corr"><img src="/images/matrix2.png" id="menu_icon"></a></li>
+                <li style="font-weight: 700;">상관관계 분석</li>
+            </ul>
+            <div id="explain_content">
+                <h1>상관관계 분석이란 ?</h1> <br>
+                상관 관계란 두 변수 사이의 관계를 통계적으로 측정하는 것이다. 가능한 상관 관계 범위는 +1 ~ –1. 상관 관계가 0이면 변수 사이에 관계가 없음을 나타낸다. 
+                -1의 상관관계는 완벽한 음의 상관관계를 나타내며, 이는 한 변수가 상승하면 다른 변수도 하강한다는 것을 의미한다. 
+                +1의 상관관계는 완벽한 양의 상관관계를 나타내며, 이는 두 변수가 같은 방향으로 함께 움직인다는 것을 의미한다.
+            </div>
+        </div>
+        <div class="result_div2">
+            <h2>분석 결과 및 시각화</h2>
+            <div class="result_content">
+                <div class="result-image-wrapper">
+                    <div class="corr-div">
+                        <h3>Pearson 상관 관계 Tri Heatmap</h3>
+                        <p>아래쪽 삼각형 버전의 Pearson 상관 관계 Heatmap.</p>
+                        <p>Heatmap의 각 셀은 두 변수 사이의 Pearson 상관 계수(선형 상관)를 정량화 한 것.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ 사진 클릭시, 확대
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img3%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Spearman 상관 관계 Tri Heatmap</h3>
+                        <p>아래쪽 삼각형 버전의 Spearman 상관 관계 Heatmap</p>
+                        <p>Heatmap의 각 셀은 두 변수 사이의 Spearman 순위 상관 계수(단조 상관)를 정량화 한 것.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ 사진 클릭시, 확대
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img4%>" class="result-image" />
+
+                    </div>
+                    <div class="corr-div">
+                        <h3>Pairplot</h3>
+                        <p>Pairplot 그림에서는 각 변수가 교차하는 구간에 해당 변수 간의 관계를 표시함. 
+                            대각선도는 다르게 처리되며, 각 열에 있는 데이터의 한계 분포를 표시하기 위해 일변량 분포도를 그림.</p>
+                        <p style="font-weight: 200;font-size: x-small;"> <br><br> ▪ 사진 클릭시, 확대
+                        </p>
+
+                        <img src="/files/<%=maindata.corr_img5%>" class="result-image" />
+
+                    </div>
+                </div>
+                <div class="file-download">
+                    <% if(Object.keys(maindata).length !=0) { %>
+                        <button type="button" id="res_btn"
+                            data-tooltip-text="<%=maindata.corr_img1%> <%=maindata.corr_img2%> <%=maindata.corr_img3%> <%=maindata.corr_img4%> <%=maindata.corr_img5%>"><a
+                                href="/file/corrrelation_<%=maindata.filename%>_.zip">결과 파일 다운로드</a></button>
+
+                        <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>`
+    //한-영 번역 기능
+    if (document.body.data.isEng) document.getElementById("translation-part").innerHTML = eng_corr;
+    else document.getElementById("translation-part").innerHTML = kor_corr;
+    //번역버튼 클릭시
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_corr;
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_corr;
+        }
+        document.getElementById("loading").style.display = "none";
+        let submitBtn = document.querySelector(".param-form #btn");
+        submitBtn.addEventListener("click", function (event) {
+            document.getElementById("loading").style.display = "block";
+        });
+    })
+    //이미지 클릭
+    var img = document.getElementsByClassName('result-image');
+    for (var x = 0; x < img.length; x++) {
+        img.item(x).onclick = function () { window.open(this.src) };
+    }
+</script>

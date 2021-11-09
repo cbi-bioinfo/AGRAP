@@ -1,0 +1,110 @@
+<main class="index__main">
+    <div class="search__wrapper">
+        <div class="search__container">
+            <h4 class="search-heading">Explore Agricultural<br>Genetic resources Data</h4>
+            <div class="search-subheading">
+                Quickly find important features from genetic resources!
+            </div>
+            <div class="search-bar">
+                <form action="/file" method="post" enctype="multipart/form-data" id="search-form" class="search-form">
+                    <!--<input type="text" class="search-input" name="query" placeholder="search" />
+                    <i class="fas fa-search fa-2x"></i>-->
+                    <input type="file" id="uploadedFile" class="file-upload" name="input-file" />
+		    <div id="loading" style="display: block;z-index: 99;"> 
+                    	<img src="/images/loading.gif" style="margin-left: -80px;z-index: 100;"> 
+                    </div>
+                    <i class="fas fa-file-upload fa-2x"></i>
+                </form>
+                <div id="myProgress">
+                    <div id="myBar"><span id="progress-status">1%</span></div>
+                    <!--<div id="progress-status">1%</div>-->
+                </div>
+            </div>
+            <div class="search-example">
+                <ul class="example-list">
+                    <li class="example">Examples:</li>
+                    <li class="example"><a href="/search?query=example1">example1</a></li>
+                    <li class="example"><a href="/search?query=example2">example2</a></li>
+                    <li class="example"><a href="/search?query=example3">example3</a></li>
+                    <li class="example"><a href="/search?query=example4">example4</a></li>
+                    <li class="example"><a href="/search?query=example5">example5</a></li>
+                    <li class="example"><a href="/search?query=example6">example6</a></li>
+                </ul>
+            </div> 
+	</div>
+    </div>
+    <div class="platform-description">
+        <div class="description__wrapper">
+            <span class="description-heading">What is Agricultural Genetic Resource Analysis?</span>
+            <p class="description-content">Agricultural genetic resources are important source in the field of agriculture and biotechnology industry for food production increase and maintaining the biodiversity. As the basic material for the research of improving varieties and developing new species, analysis for features in agricultural genetic resource is needed. However, identifying important features and performing correlation analysis based on the resources are limited, which makes it difficult for the efficient data utilization. “Agricultural Genetic Resource Analysis” is a web-based platform performing machine learning based analysis using the agricultural genetic dataset. It provides classification, clustering, feature selection and correlation analysis with an intuitive interface and allows users to obtain understanding of important features in the dataset.</p>
+        </div>
+        
+	<div class="icon">
+                <div class = "icon-n"><img src ="/images/classification_b.png" style="width:80%;"></div>
+                <div class = "icon-n"><img src ="/images/box_b.png" style="width:80%;"></div>
+                <div class = "icon-n"><img src ="/images/cluster_b.png" style="width: 80%;"></div>
+                <div class = "icon-n"><img src ="/images/agronomy_b.png" style="width: 80%;"></div>
+        </div>
+    </div>
+ 
+    <div class="search-bar-sticky">
+        <span>platform</span>
+        <form action="/search" method="get" id="search-form">
+            <input type="text" class="search-input-sticky" name="query" placeholder="search" />
+            <i class="fas fa-search fa-2x"></i>
+        </form>
+    </div>
+</main>
+
+<script>
+    document.querySelector(".search-bar-sticky").style.display = "none";
+    document.getElementById("myProgress").style.display = "none";
+    document.getElementById("loading").style.display = "none";
+    function submitForm(){
+        document.getElementById("search-form").submit();
+    }
+    let i = 0;
+    function move() {
+        if (i == 0) {
+            i = 1;
+            var elem = document.getElementById("myBar");
+            var status = document.getElementById("progress-status");
+            var width = 1;
+            var id = setInterval(frame, 500);
+            function frame() {
+                if(width >= 100) {
+                    clearInterval(id);
+                    i = 0;
+                } else {
+                    width++;
+                    elem.style.width = width + "%";
+                    status.innerText = width + "%";
+                }
+            }
+        }
+    }
+    /*let input = document.querySelector(".search-input");
+    input.addEventListener("keyup", function(event) {
+        if(event.keyCode === 13) {
+            event.preventDefault();
+            submitForm();
+        }
+    });*/
+    let submitBtn = document.querySelector(".search-form i");
+    submitBtn.addEventListener("click", function(event) {
+        event.preventDefault();
+        submitForm();
+        document.getElementById("myProgress").style.display = "flex";
+	document.getElementById("loading").style.display = "block";
+        move();
+    });
+
+    /*var sticky = input.offsetTop;
+    window.onscroll = function() {
+        if(window.pageYOffset >= sticky) {
+            document.querySelector(".search-bar-sticky").style.display = "flex";
+        } else {
+            document.querySelector(".search-bar-sticky").style.display = "none";
+        }
+    }*/
+</script>

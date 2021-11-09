@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<body>
+    <div class="data search">
+        <hr />
+        <div class="top-nav">
+            <ul class="nav nav-tabs" id="translation-part">
+            </ul>
+        </div>
+        <h1 id="translation-part2"></h1>
+        <div class="data-search-wrapper">
+            <form name="form" action="/rice/searchResult/1" method="POST" onsubmit="return pageSearchSubmit()">
+                <div class="input-group">
+
+                    <select class="form-control" aria-label="Default select example" name="col" id="col">
+                        <option selected>select column</option>
+                        <% col.map(it=> {
+                            if(method=="post"&& search.col==it){%>
+                            <option selected value="<%=it%>">
+                                <%=it%>
+                            </option>
+                            <%} else{%>
+                                <option value="<%=it%>">
+                                    <%=it%>
+                                </option>
+
+                                <%}})%>
+                    </select>
+                    <input class="form-control" name="search" id="search" type="text" <%if(method=="post" ){%> value=
+                    <%=search.search%>
+                        <%}%>>
+                            <input class="btn btn-default" type="submit" value="search" />
+                </div>
+            </form>
+        </div>
+        <script>
+            function pageSearchSubmit() {
+                //serach 에러 처리
+                try {
+                    if (document.getElementById("col").value == "select column") {
+                        throw Error("Column을 선택해 주세요.");
+                    }
+                    else {
+                        var f = document.form;
+                        f.col.value = document.getElementById("col").value;
+                        f.search.value = document.getElementById("search").value;
+                        f.action = `/rice/searchResult/1`;
+                        return true;
+                    }
+                } catch (error) {
+                    alert(error.message);
+                    return false;
+                }
+            }
+        </script>
+        <%if(data.length==0){%>
+            <div class="search-notice-wrapper">
+                <i class="fas fa-search"></i>
+                <span>
+                    해당 조건의 검색결과가 없습니다.
+                </span>
+            </div>
+            <%} else{%>
+                <%- include('data-table.ejs')%>
+                    <%}%>
+                        <%if(method=="post"){%>
+                            <script>
+                                function pageSubmit(page) {
+                                    var f = document.form;
+                                    f.col.value = "<%=search.col%>";
+                                    f.search.value = "<%=search.search%>";
+                                    f.action = `/rice/searchResult/${page}`;
+                                    f.submit();
+                                }
+                            </script>
+                            <%} %>
+    </div>
+
+</body>
+<script>
+    // let eng_nav = `
+    // <ul class="nav nav-tabs" id="translation-part">
+    //             <li role="presentation"><a href="/rice/list/1">DataSet</a></li>
+    //             <li role="presentation" class="active"><a href="/rice/search/1">Search</a></li>
+    //             <li role="presentation"><a href="/rice/advSearch/1">Multiple Search</a></li>
+    //             <li role="presentation"><a href="/rice/column">Feature Search</a></li>
+    //         </ul>`
+    // let kor_nav = `
+    // <ul class="nav nav-tabs" id="translation-part">
+    //             <li role="presentation"><a href="/rice/list/1">데이터 조회</a></li>
+    //             <li role="presentation" class="active"><a href="/rice/search/1">검색</a></li>
+    //             <li role="presentation"><a href="/rice/advSearch/1">다중 검색</a></li>
+    //             <li role="presentation"><a href="/rice/column">특징 검색</a></li>
+    //         </ul>`
+
+    let eng_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation"><a href="/rice/list/1">DataSet</a></li>
+                <li role="presentation" class="active"><a href="/rice/search/1">Search</a></li>
+            </ul>`
+    let kor_nav = `
+    <ul class="nav nav-tabs" id="translation-part">
+                <li role="presentation"><a href="/rice/list/1">데이터 조회</a></li>
+                <li role="presentation" class="active"><a href="/rice/search/1">검색</a></li>
+            </ul>`
+    if (document.body.data.isEng) {
+        document.getElementById("translation-part").innerHTML = eng_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 Search";
+    }
+    else {
+        document.getElementById("translation-part").innerHTML = kor_nav;
+        document.getElementById("translation-part2").innerHTML = "벼 유전자원 검색";
+    }
+    var btn = document.querySelector('#translate-btn');
+    btn.addEventListener('click', function transEvent() {
+        if (document.body.data.isEng) {
+            document.getElementById("translation-part").innerHTML = eng_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 Search";
+        }
+        else {
+            document.getElementById("translation-part").innerHTML = kor_nav;
+            document.getElementById("translation-part2").innerHTML = "벼 유전자원 검색";
+        }
+    })
+</script>
+
+</html>

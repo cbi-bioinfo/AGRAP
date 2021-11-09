@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--column 페이지-->
+<head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.amcharts.com/lib/4/core.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/charts.js"></script>
+    <script src="https://cdn.amcharts.com/lib/4/themes/animated.js"></script>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/6281c0ce53.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <link rel="stylesheet" href="/stylesheets/style.css">
+
+</head>
+
+<body>
+    <!--번역 상태 데이터-->
+    <script>
+        document.body.data = {
+            isEng: JSON.parse(window.localStorage.getItem("translation")).isEng
+        }
+    </script>
+    <%- include('header.ejs') %>
+        <%if(type=="pepper"){%>
+            <%- include('pepperData-featureSearch.ejs') %>
+                <%}else{%>
+                    <%- include('riceData-featureSearch.ejs') %>
+                        <%}%>
+                            <%- include('footer.ejs') %>
+</body>
+
+</html>

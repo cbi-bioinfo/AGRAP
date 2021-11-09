@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="uft-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="/images/shortcut3.svg" type="image/x-icon">
+    <script src="https://kit.fontawesome.com/6281c0ce53.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/modal/css/jquery.loadingModal.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="index.ejs"></script>
+    <style>
+        .tooltip {
+            position: absolute;
+            display: none;
+            width: auto;
+            height: auto;
+            background: #515A5A;
+            border: 0 none;
+            border-radius: 4px;
+            color: #F8786B;
+            font: 12px sans-serif;
+            padding: 5px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        document.body.data = {
+            isEng: JSON.parse(window.localStorage.getItem("translation")).isEng
+        }
+    </script>
+    <%- include('header.ejs') %>
+        <%if(type=="main"){%>
+            <%- include('result-main.ejs') %>
+                <%}%>
+                    <%if(type=="classification"){%>
+                        <%- include('result-classification.ejs') %>
+                            <%}%>
+                                <%if(type=="feature"){%>
+                                    <%- include('result-feature.ejs') %>
+                                        <%}%>
+                                            <%if(type=="cluster"){%>
+                                                <%- include('result-cluster.ejs') %>
+                                                    <%}%>
+                                                        <%if(type=="corr"){%>
+                                                            <%- include('result-corr.ejs') %>
+                                                                <%}%>
+                                                                    <%- include('footer.ejs') %>
+</body>
+<script>
+    //로딩 gif
+    document.getElementById("loading").style.display = "none";
+    //재실행 버튼 클릭시
+    let submitBtn = document.querySelector(".param-form #btn");
+    submitBtn.addEventListener("click", function (event) {
+        document.getElementById("loading").style.display = "inline";
+    });
+    //이미지 클릭
+    var img = document.getElementsByClassName('result-image');
+    for (var x = 0; x < img.length; x++) {
+        img.item(x).onclick = function () { window.open(this.src) };
+    }
+</script>
+
+</html>
