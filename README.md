@@ -11,4 +11,4 @@ Agricultural genetic resources are important source in the field of agriculture 
 * J. D. Hunter, "Matplotlib: A 2D Graphics Environment", Computing in Science & Engineering, vol. 9, no. 3, pp. 90-95, 2007.
 
 ## Contact
-If you have any question or problem, please send an email to **miniymay AT sookmyung.ac.kr**
+If you have any question or problem, please send an email to **joungmin AT vt.edu**
